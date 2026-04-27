@@ -165,30 +165,48 @@ const logout = () => { authed.value = false; page.value = 'dashboard'; };
 
     <Toast position="bottom-right"/>
 
+    <!-- Tweaks panel: shell custom (frosted glass + drag + IDE-host postMessage)
+         mantido em window.TweaksPanel; controlos internos migrados para PrimeVue. -->
     <TweaksPanel title="Tweaks · Portal">
       <TweakSection label="Aparência">
-        <TweakRadio label="Tema" :value="tweaks.theme"
-          :options="[{ value: 'light', label: 'Claro' }, { value: 'dark', label: 'Escuro' }]"
-          @change="(v) => setTweak('theme', v)"/>
-        <TweakRadio label="Densidade" :value="tweaks.density"
-          :options="[
-            { value: 'compact',     label: 'Compacta' },
-            { value: 'comfortable', label: 'Confortável' },
-            { value: 'spacious',    label: 'Ampla' },
-          ]"
-          @change="(v) => setTweak('density', v)"/>
-        <TweakSlider label="Matiz da marca" :value="tweaks.accentHue"
-          :min="120" :max="260" :step="1"
-          @change="(v) => setTweak('accentHue', v)"/>
+        <div class="twk-row">
+          <div class="twk-lbl"><span>Tema</span></div>
+          <SelectButton :model-value="tweaks.theme"
+            :options="[{ value: 'light', label: 'Claro' }, { value: 'dark', label: 'Escuro' }]"
+            optionLabel="label" optionValue="value" :allowEmpty="false"
+            @update:model-value="(v) => setTweak('theme', v)"/>
+        </div>
+        <div class="twk-row">
+          <div class="twk-lbl"><span>Densidade</span></div>
+          <SelectButton :model-value="tweaks.density"
+            :options="[
+              { value: 'compact',     label: 'Compacta' },
+              { value: 'comfortable', label: 'Confortável' },
+              { value: 'spacious',    label: 'Ampla' },
+            ]"
+            optionLabel="label" optionValue="value" :allowEmpty="false"
+            @update:model-value="(v) => setTweak('density', v)"/>
+        </div>
+        <div class="twk-row">
+          <div class="twk-lbl"><span>Matiz da marca</span><span class="twk-val">{{ tweaks.accentHue }}</span></div>
+          <Slider :model-value="tweaks.accentHue" :min="120" :max="260" :step="1"
+            @update:model-value="(v) => setTweak('accentHue', v)"/>
+        </div>
       </TweakSection>
       <TweakSection label="Layout">
-        <TweakToggle label="Menu lateral colapsado" :value="collapsed"
-          @change="(v) => { collapsed = v; setTweak('sidebarCollapsed', v); }"/>
-        <TweakToggle label="Mostrar alertas no painel" :value="tweaks.showAlerts"
-          @change="(v) => setTweak('showAlerts', v)"/>
+        <div class="twk-row twk-row-h">
+          <div class="twk-lbl"><span>Menu lateral colapsado</span></div>
+          <ToggleSwitch :model-value="collapsed"
+            @update:model-value="(v) => { collapsed = v; setTweak('sidebarCollapsed', v); }"/>
+        </div>
+        <div class="twk-row twk-row-h">
+          <div class="twk-lbl"><span>Mostrar alertas no painel</span></div>
+          <ToggleSwitch :model-value="tweaks.showAlerts"
+            @update:model-value="(v) => setTweak('showAlerts', v)"/>
+        </div>
       </TweakSection>
       <TweakSection label="Sessão">
-        <TweakButton label="Terminar sessão" @click="logout"/>
+        <Button severity="primary" size="small" @click="logout">Terminar sessão</Button>
       </TweakSection>
     </TweaksPanel>
   </div>
