@@ -135,16 +135,11 @@ const filterPillStyle = (cat) => ({
     </article>
 
     <!-- Filters -->
-    <div :style="{ display: 'flex', alignItems: 'center', gap: '16px', margin: '32px 0 20px', flexWrap: 'wrap' }">
-      <div :style="{ display: 'flex', gap: '6px', flexWrap: 'wrap', flex: 1 }">
+    <div class="newsroom-filters">
+      <div class="newsroom-filters-pills">
         <button v-for="c in data.postCategories" :key="c.id" @click="filter = c.id" :style="filterPillStyle(c)">{{ c.label }}</button>
       </div>
-      <div class="ui-field" :style="{
-        display: 'flex', alignItems: 'center', gap: '8px',
-        height: '38px', padding: '0 12px',
-        background: 'var(--surface)', border: '1px solid var(--border)',
-        borderRadius: '10px', minWidth: '240px',
-      }">
+      <div class="ui-field newsroom-filters-search">
         <ISearch :size="14" :style="{ color: 'var(--foreground-muted)' }"/>
         <input v-model="search" placeholder="Procurar artigos…"
           :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit', fontSize: '13px' }"/>
@@ -238,3 +233,58 @@ const filterPillStyle = (cat) => ({
     </div>
   </div>
 </template>
+
+<style scoped>
+.newsroom-filters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 32px 0 20px;
+  flex-wrap: wrap;
+}
+.newsroom-filters-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+.newsroom-filters-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-width: 240px;
+}
+
+@media (max-width: 768px) {
+  .newsroom-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  /* search renders ABOVE the pills on mobile */
+  .newsroom-filters-search {
+    order: -1;
+    min-width: 0;
+    width: 100%;
+  }
+  /* pills inline com scroll horizontal em vez de wrap */
+  .newsroom-filters-pills {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+    /* margem negativa para o scroll ir ate a borda do conteudo */
+    margin: 0 -4px;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .newsroom-filters-pills::-webkit-scrollbar { display: none; }
+  .newsroom-filters-pills > button { flex: 0 0 auto; }
+}
+</style>
