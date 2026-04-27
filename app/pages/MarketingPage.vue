@@ -54,7 +54,7 @@ const donutData = [
             <div class="card-title">Campanhas</div>
             <div class="card-subtitle">Visão de portefólio · este trimestre</div>
           </div>
-          <Tabs :value="tab" :tabs="tabs" @change="(id) => tab = id"/>
+          <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
         <div :style="{ padding: '4px 0' }">
           <div v-for="c in filtered" :key="c.id" class="row-hover"

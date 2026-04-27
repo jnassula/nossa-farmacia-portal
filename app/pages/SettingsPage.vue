@@ -181,7 +181,7 @@ const integrations = [
                   <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ it.desc }}</div>
                 </div>
                 <Tag v-if="it.status === 'connected'" severity="success">Ativa</Tag>
-                <Tag v-else severity="warning">Pendente</Tag>
+                <Tag v-else severity="warn">Pendente</Tag>
               </div>
             </div>
           </div>

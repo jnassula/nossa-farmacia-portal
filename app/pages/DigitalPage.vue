@@ -116,9 +116,9 @@ const upBars = Array.from({ length: 40 }, (_, i) => ({
             <div class="card-title">Encomendas por canal · 30 dias</div>
             <div class="card-subtitle">{{ fmt(totalOrders) }} encomendas · {{ eur(totalRev) }} consolidado</div>
           </div>
-          <Tabs value="day"
-            :tabs="[{ id: 'day', label: 'Dia' }, { id: 'week', label: 'Semana' }, { id: 'month', label: 'Mês' }]"
-            @change="() => {}"/>
+          <SelectButton :model-value="'day'"
+            :options="[{ id: 'day', label: 'Dia' }, { id: 'week', label: 'Semana' }, { id: 'month', label: 'Mês' }]"
+            optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
         <div class="card-body">
           <svg :viewBox="`0 0 ${stackW} ${stackH}`" width="100%" :style="{ display: 'block' }">
@@ -166,7 +166,7 @@ const upBars = Array.from({ length: 40 }, (_, i) => ({
           <div class="card-subtitle">Última atualização há 12 segundos</div>
         </div>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '8px' }">
-          <Tabs :value="filter" :tabs="orderTabs" @change="(id) => filter = id"/>
+          <SelectButton v-model="filter" :options="orderTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
       </div>
       <div :style="{ overflowX: 'auto' }">

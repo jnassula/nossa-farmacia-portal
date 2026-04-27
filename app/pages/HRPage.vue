@@ -49,7 +49,7 @@ const shiftTone = (sh) => {
     </div>
 
     <div :style="{ display: 'flex', gap: '8px', alignItems: 'center', justifyContent: 'space-between' }">
-      <Tabs :value="filter" :tabs="tabs" @change="(id) => filter = id"/>
+      <SelectButton v-model="filter" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
       <div class="seg">
         <button :class="{ active: view === 'grid' }" @click="view = 'grid'">Cartões</button>
         <button :class="{ active: view === 'schedule' }" @click="view = 'schedule'">Escala</button>
@@ -66,7 +66,7 @@ const shiftTone = (sh) => {
             <div :style="{ fontSize: '14px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }">{{ t.name }}</div>
             <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">{{ t.role }}</div>
           </div>
-          <Tag v-if="t.status === 'leave'" severity="warning">Ausente</Tag>
+          <Tag v-if="t.status === 'leave'" severity="warn">Ausente</Tag>
           <Tag v-else severity="success">Ativo</Tag>
         </div>
         <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }">

@@ -82,7 +82,7 @@ const customerActivity = [
           </div>
         </div>
 
-        <Tabs :value="tab" :tabs="tabs" @change="(id) => tab = id"/>
+        <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
 
         <table class="data-table" :style="{ marginTop: '12px' }">
           <thead>
@@ -151,10 +151,15 @@ const customerActivity = [
       </div>
     </div>
 
-    <Drawer :open="!!selected"
-      :title="selected?.name"
-      :subtitle="selected ? `${selected.segment} · NIF ${selected.nif}` : ''"
-      @close="selected = null">
+    <Drawer :visible="!!selected" position="right" @update:visible="(v) => { if (!v) selected = null; }" :style="{ width: '480px' }">
+      <template #header>
+        <div :style="{ flex: 1 }">
+          <div :style="{ fontSize: '16px', fontWeight: 600 }">{{ selected?.name }}</div>
+          <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)', marginTop: '4px' }">
+            {{ selected ? `${selected.segment} · NIF ${selected.nif}` : '' }}
+          </div>
+        </div>
+      </template>
       <template #footer>
         <Button text severity="secondary">Histórico completo</Button>
         <Button severity="primary">Iniciar atendimento</Button>

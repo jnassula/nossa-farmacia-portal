@@ -116,10 +116,11 @@
   // a medida que cada fase de migracao for concluida.
   const PRIMITIVES_REMAINING = [
     // Sem equivalente directo em PrimeVue:
-    'Pill', 'Btn', 'IconBtn', 'SectionTitle', 'Trend', 'Empty',
+    'SectionTitle', 'Trend', 'Empty',
     'KPI', 'Stat', 'Kpi', 'Legend', 'MiniStat',
     // Em conflito com PrimeVue — vai sendo removido por fase:
-    'Card', 'Avatar', 'Drawer', 'Toast', 'Tabs', 'ProgressBar',
+    // (migrados: Btn->Button, Pill->Tag, IconBtn->Button text, Tabs->SelectButton, Drawer->Drawer)
+    'Card', 'Avatar', 'Toast', 'ProgressBar',
   ];
   for (const name of PRIMITIVES_REMAINING) {
     if (window[name]) app.component(name, window[name]);

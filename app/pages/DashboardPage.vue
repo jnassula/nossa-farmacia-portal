@@ -109,7 +109,7 @@ const Kpi = (_p, { attrs }) => {
         </p>
       </div>
       <div :style="{ display: 'flex', gap: '8px', alignItems: 'center' }">
-        <Tabs :value="range" :tabs="rangeTabs" @change="(id) => range = id"/>
+        <SelectButton v-model="range" :options="rangeTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         <Button severity="secondary" outlined><ICalendar :size="14"/> 26 mar — 26 abr</Button>
         <Button severity="secondary" outlined><IDownload :size="14"/> Exportar</Button>
       </div>
@@ -137,7 +137,7 @@ const Kpi = (_p, { attrs }) => {
             <div class="card-subtitle">Últimos 12 meses · todas as unidades · valores em mil €</div>
           </div>
           <div :style="{ display: 'flex', gap: '6px' }">
-            <Tabs :value="chartView" :tabs="chartTabs" @change="(id) => chartView = id"/>
+            <SelectButton v-model="chartView" :options="chartTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
           </div>
         </div>
         <div class="card-body">
@@ -265,7 +265,7 @@ const Kpi = (_p, { attrs }) => {
             <div class="card-title">Ranking de farmácias</div>
             <div class="card-subtitle">Top performers · este mês</div>
           </div>
-          <Tabs value="rev" :tabs="rankingTabs" @change="() => {}"/>
+          <SelectButton :model-value="'rev'" :options="rankingTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
         <div :style="{ overflowX: 'auto' }">
           <table class="tbl">

@@ -88,7 +88,7 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
             <div class="card-title">Fluxo de caixa · 12 meses</div>
             <div class="card-subtitle">Entradas vs. saídas · valores em mil €</div>
           </div>
-          <Tabs value="grouped" :tabs="cfTabs" @change="() => {}"/>
+          <SelectButton :model-value="'grouped'" :options="cfTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
         <div class="card-body">
           <svg :viewBox="`0 0 ${cfW} ${cfH}`" width="100%" :style="{ display: 'block' }">
@@ -133,7 +133,7 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
 
     <Card>
       <div class="card-header" :style="{ flexWrap: 'wrap' }">
-        <Tabs :value="tab" :tabs="tabs" @change="(id) => tab = id"/>
+        <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         <div :style="{ display: 'flex', gap: '8px', marginLeft: 'auto' }">
           <div :style="{ position: 'relative' }">
             <ISearch :size="14" :style="{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--foreground-subtle)' }"/>
@@ -177,7 +177,7 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
               </td>
               <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eur(r.amount) }}</td>
               <td>
-                <Tag v-if="r.status === 'pending'"   severity="warning">Pendente</Tag>
+                <Tag v-if="r.status === 'pending'"   severity="warn">Pendente</Tag>
                 <Tag v-if="r.status === 'overdue'"   severity="danger">Em atraso</Tag>
                 <Tag v-if="r.status === 'paid'"      severity="success">Liquidado</Tag>
                 <Tag v-if="r.status === 'scheduled'" severity="info">Agendado</Tag>

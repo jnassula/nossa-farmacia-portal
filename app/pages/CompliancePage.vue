@@ -48,7 +48,7 @@ const tabs = computed(() => [
       </KPI>
     </div>
 
-    <Tabs :value="filter" :tabs="tabs" @change="(id) => filter = id"/>
+    <SelectButton v-model="filter" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
 
     <Card :style="{ padding: 0, overflow: 'hidden' }">
       <table class="data-table">
@@ -67,7 +67,7 @@ const tabs = computed(() => [
             <td :style="{ fontSize: '12.5px', fontVariantNumeric: 'tabular-nums' }">{{ c.due }}</td>
             <td>
               <Tag v-if="c.priority === 'high'" severity="danger">Alta</Tag>
-              <Tag v-else-if="c.priority === 'medium'" severity="warning">Média</Tag>
+              <Tag v-else-if="c.priority === 'medium'" severity="warn">Média</Tag>
               <Tag v-else severity="neutral">Baixa</Tag>
             </td>
             <td><Tag :severity="statusMap[c.status].tone">{{ statusMap[c.status].label }}</Tag></td>

@@ -92,7 +92,7 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
           <ISearch :size="15" :style="{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--foreground-subtle)' }"/>
           <input v-model="search" placeholder="Procurar por nome, SKU, marca…" class="input" :style="{ paddingLeft: '36px' }"/>
         </div>
-        <Tabs :value="filter" :tabs="tabs" @change="(id) => filter = id"/>
+        <SelectButton v-model="filter" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '8px' }">
           <Button severity="secondary" outlined size="small"><IFilter :size="13"/> Filtros · 2</Button>
           <Button severity="secondary" outlined size="small"><IDownload :size="13"/> Exportar</Button>
@@ -145,7 +145,7 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
               <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eurD(it.price) }}</td>
               <td>
                 <Tag v-if="it.status === 'low'"  severity="danger">Stock baixo</Tag>
-                <Tag v-if="it.status === 'soon'" severity="warning">Val. próxima</Tag>
+                <Tag v-if="it.status === 'soon'" severity="warn">Val. próxima</Tag>
                 <Tag v-if="it.status === 'ok'"   severity="success">Normal</Tag>
               </td>
               <td><Button text severity="secondary"><IMore :size="14"/></Button></td>
@@ -168,10 +168,15 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
       </div>
     </Card>
 
-    <Drawer :open="!!drawerItem"
-      :title="drawerItem?.name"
-      :subtitle="drawerItem ? `${drawerItem.brand} · SKU ${drawerItem.sku}` : ''"
-      @close="drawerItem = null">
+    <Drawer :visible="!!drawerItem" position="right" @update:visible="(v) => { if (!v) drawerItem = null; }" :style="{ width: '480px' }">
+      <template #header>
+        <div :style="{ flex: 1 }">
+          <div :style="{ fontSize: '16px', fontWeight: 600 }">{{ drawerItem?.name }}</div>
+          <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)', marginTop: '4px' }">
+            {{ drawerItem ? `${drawerItem.brand} · SKU ${drawerItem.sku}` : '' }}
+          </div>
+        </div>
+      </template>
       <template #footer>
         <Button severity="secondary" outlined><IPackage :size="14"/> Transferir</Button>
         <Button><ITruck :size="14"/> Encomendar</Button>
@@ -180,7 +185,7 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
       <div v-if="drawerItem" :style="{ display: 'flex', flexDirection: 'column', gap: '20px' }">
         <div :style="{ display: 'flex', gap: '10px', flexWrap: 'wrap' }">
           <Tag v-if="drawerItem.status === 'low'"  severity="danger">Stock baixo</Tag>
-          <Tag v-if="drawerItem.status === 'soon'" severity="warning">Validade próxima</Tag>
+          <Tag v-if="drawerItem.status === 'soon'" severity="warn">Validade próxima</Tag>
           <Tag severity="secondary">{{ drawerItem.category }}</Tag>
           <Tag severity="secondary" rounded>PVP {{ eurD(drawerItem.price) }}</Tag>
         </div>

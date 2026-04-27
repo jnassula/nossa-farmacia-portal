@@ -67,7 +67,7 @@ const cellTextColor = (v) => v > 60 ? 'var(--brand-emerald-800)' : 'var(--foregr
       </template>
     </SectionTitle>
 
-    <Tabs :value="tab" :tabs="tabs" @change="(id) => tab = id"/>
+    <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
 
     <!-- Vendas -->
     <div v-if="tab === 'vendas'" :style="{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }">

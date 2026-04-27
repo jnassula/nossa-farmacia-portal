@@ -45,7 +45,7 @@ const tabs = [
       <KPI label="Interações detetadas" value="3" sub="2 por resolver"><template #icon><IAlert :size="16"/></template></KPI>
     </div>
 
-    <Tabs :value="tab" :tabs="tabs" @change="(id) => tab = id"/>
+    <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
 
     <!-- Queue tab -->
     <Card v-if="tab === 'queue'" :style="{ padding: 0, overflow: 'hidden' }">
