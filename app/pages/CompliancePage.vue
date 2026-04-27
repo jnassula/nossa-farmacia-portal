@@ -8,7 +8,7 @@ const statusMap = {
   overdue:     { label: 'Atrasado',   tone: 'danger'  },
   pending:     { label: 'Pendente',   tone: 'warn' },
   in_progress: { label: 'Em curso',    tone: 'info'   },
-  scheduled:   { label: 'Agendado',    tone: 'neutral' },
+  scheduled:   { label: 'Agendado',    tone: 'secondary' },
   done:        { label: 'Concluído',  tone: 'success' },
 };
 
@@ -51,30 +51,39 @@ const tabs = computed(() => [
     <SelectButton v-model="filter" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
 
     <Card :style="{ padding: 0, overflow: 'hidden' }">
-      <table class="data-table">
-        <thead>
-          <tr><th>Tipo</th><th>Obrigação</th><th>Unidade</th><th>Documento</th><th>Vencimento</th><th>Prioridade</th><th>Estado</th><th></th></tr>
-        </thead>
-        <tbody>
-          <tr v-for="c in filtered" :key="c.id">
-            <td><Tag severity="secondary">{{ c.kind }}</Tag></td>
-            <td :style="{ fontWeight: 500, maxWidth: '280px' }">{{ c.title }}</td>
-            <td :style="{ fontSize: '12.5px' }">
-              <em v-if="c.pharmacy === 'all'" :style="{ color: 'var(--foreground-muted)' }">Grupo</em>
-              <template v-else>{{ (D.pharmacies.find(p => p.id === c.pharmacy)?.name || '').replace('Farmácia Nossa ', '') }}</template>
-            </td>
-            <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ c.doc }}</td>
-            <td :style="{ fontSize: '12.5px', fontVariantNumeric: 'tabular-nums' }">{{ c.due }}</td>
-            <td>
-              <Tag v-if="c.priority === 'high'" severity="danger">Alta</Tag>
-              <Tag v-else-if="c.priority === 'medium'" severity="warn">Média</Tag>
-              <Tag v-else severity="neutral">Baixa</Tag>
-            </td>
-            <td><Tag :severity="statusMap[c.status].tone">{{ statusMap[c.status].label }}</Tag></td>
-            <td :style="{ textAlign: 'right' }"><Button text severity="secondary" size="small">Abrir</Button></td>
-          </tr>
-        </tbody>
-      </table>
+      <DataTable :value="filtered" :rowHover="true" stripedRows>
+        <Column header="Tipo">
+          <template #body="{ data }"><Tag severity="secondary">{{ data.kind }}</Tag></template>
+        </Column>
+        <Column header="Obrigação" field="title" :pt="{ bodyCell: { style: { fontWeight: 500, maxWidth: '280px' } } }"/>
+        <Column header="Unidade">
+          <template #body="{ data }">
+            <em v-if="data.pharmacy === 'all'" :style="{ color: 'var(--foreground-muted)' }">Grupo</em>
+            <template v-else>{{ (D.pharmacies.find(p => p.id === data.pharmacy)?.name || '').replace('Farmácia Nossa ', '') }}</template>
+          </template>
+        </Column>
+        <Column header="Documento">
+          <template #body="{ data }">
+            <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ data.doc }}</span>
+          </template>
+        </Column>
+        <Column header="Vencimento" field="due" :pt="{ bodyCell: { style: { fontVariantNumeric: 'tabular-nums' } } }"/>
+        <Column header="Prioridade">
+          <template #body="{ data }">
+            <Tag v-if="data.priority === 'high'" severity="danger">Alta</Tag>
+            <Tag v-else-if="data.priority === 'medium'" severity="warn">Média</Tag>
+            <Tag v-else severity="secondary">Baixa</Tag>
+          </template>
+        </Column>
+        <Column header="Estado">
+          <template #body="{ data }">
+            <Tag :severity="statusMap[data.status].tone">{{ statusMap[data.status].label }}</Tag>
+          </template>
+        </Column>
+        <Column :pt="{ bodyCell: { style: { textAlign: 'right' } } }">
+          <template #body><Button text severity="secondary" size="small">Abrir</Button></template>
+        </Column>
+      </DataTable>
     </Card>
   </div>
 </template>

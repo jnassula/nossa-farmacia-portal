@@ -115,28 +115,33 @@ const cellTextColor = (v) => v > 60 ? 'var(--brand-emerald-800)' : 'var(--foregr
         <div :style="{ fontSize: '14px', fontWeight: 600 }">Margem operacional por unidade</div>
         <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">Abril 2026</div>
       </div>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Unidade</th>
-            <th :style="{ textAlign: 'right' }">Receita</th>
-            <th :style="{ textAlign: 'right' }">Custo bens</th>
-            <th :style="{ textAlign: 'right' }">OPEX</th>
-            <th :style="{ textAlign: 'right' }">EBITDA</th>
-            <th :style="{ textAlign: 'right' }">Margem</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in rentabRows" :key="r.id">
-            <td :style="{ fontWeight: 500 }">{{ r.name.replace('Farmácia Nossa ', '') }}</td>
-            <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }">{{ eur(r.revenue) }}</td>
-            <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--foreground-muted)' }">{{ eur(r.cogs) }}</td>
-            <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--foreground-muted)' }">{{ eur(r.opex) }}</td>
-            <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }">{{ eur(r.ebitda) }}</td>
-            <td :style="{ textAlign: 'right' }"><Tag :severity="marginTone(parseFloat(r.margin))">{{ r.margin }}%</Tag></td>
-          </tr>
-        </tbody>
-      </table>
+      <DataTable :value="rentabRows" :rowHover="true" stripedRows>
+        <Column header="Unidade" :pt="{ bodyCell: { style: { fontWeight: 500 } } }">
+          <template #body="{ data }">{{ data.name.replace('Farmácia Nossa ', '') }}</template>
+        </Column>
+        <Column header="Receita"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums' } } }">
+          <template #body="{ data }">{{ eur(data.revenue) }}</template>
+        </Column>
+        <Column header="Custo bens"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--foreground-muted)' } } }">
+          <template #body="{ data }">{{ eur(data.cogs) }}</template>
+        </Column>
+        <Column header="OPEX"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--foreground-muted)' } } }">
+          <template #body="{ data }">{{ eur(data.opex) }}</template>
+        </Column>
+        <Column header="EBITDA"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 600 } } }">
+          <template #body="{ data }">{{ eur(data.ebitda) }}</template>
+        </Column>
+        <Column header="Margem"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right' } } }">
+          <template #body="{ data }">
+            <Tag :severity="marginTone(parseFloat(data.margin))">{{ data.margin }}%</Tag>
+          </template>
+        </Column>
+      </DataTable>
     </Card>
 
     <!-- Categorias -->

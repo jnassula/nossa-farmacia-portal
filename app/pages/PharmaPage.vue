@@ -49,26 +49,32 @@ const tabs = [
 
     <!-- Queue tab -->
     <Card v-if="tab === 'queue'" :style="{ padding: 0, overflow: 'hidden' }">
-      <table class="data-table">
-        <thead>
-          <tr><th>Receita</th><th>Doente</th><th>Médico</th><th>Tipo</th><th :style="{ textAlign: 'center' }">Itens</th><th>Estado</th><th>Prioridade</th><th></th></tr>
-        </thead>
-        <tbody>
-          <tr v-for="rx in D.dispensingQueue" :key="rx.id">
-            <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '12px' }">{{ rx.id }}</td>
-            <td :style="{ fontWeight: 500 }">{{ rx.patient }}</td>
-            <td :style="{ color: 'var(--foreground-muted)' }">{{ rx.doctor }}</td>
-            <td :style="{ fontSize: '12.5px' }">{{ rx.type }}</td>
-            <td :style="{ textAlign: 'center', fontVariantNumeric: 'tabular-nums' }">{{ rx.items }}</td>
-            <td><Tag :severity="queueStatus[rx.status].tone">{{ queueStatus[rx.status].label }}</Tag></td>
-            <td>
-              <Tag v-if="rx.priority === 'high'" severity="danger">Urgente</Tag>
-              <span v-else :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">Normal</span>
-            </td>
-            <td :style="{ textAlign: 'right' }"><Button text severity="secondary" size="small">Abrir</Button></td>
-          </tr>
-        </tbody>
-      </table>
+      <DataTable :value="D.dispensingQueue" :rowHover="true" stripedRows>
+        <Column header="Receita">
+          <template #body="{ data }">
+            <span :style="{ fontFamily: 'var(--font-mono)', fontSize: '12px' }">{{ data.id }}</span>
+          </template>
+        </Column>
+        <Column header="Doente" field="patient" :pt="{ bodyCell: { style: { fontWeight: 500 } } }"/>
+        <Column header="Médico" field="doctor" :pt="{ bodyCell: { style: { color: 'var(--foreground-muted)' } } }"/>
+        <Column header="Tipo" field="type"/>
+        <Column header="Itens" field="items"
+          :pt="{ headerCell: { style: { textAlign: 'center' } }, bodyCell: { style: { textAlign: 'center', fontVariantNumeric: 'tabular-nums' } } }"/>
+        <Column header="Estado">
+          <template #body="{ data }">
+            <Tag :severity="queueStatus[data.status].tone">{{ queueStatus[data.status].label }}</Tag>
+          </template>
+        </Column>
+        <Column header="Prioridade">
+          <template #body="{ data }">
+            <Tag v-if="data.priority === 'high'" severity="danger">Urgente</Tag>
+            <span v-else :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">Normal</span>
+          </template>
+        </Column>
+        <Column :pt="{ bodyCell: { style: { textAlign: 'right' } } }">
+          <template #body><Button text severity="secondary" size="small">Abrir</Button></template>
+        </Column>
+      </DataTable>
     </Card>
 
     <!-- Services tab -->
@@ -93,26 +99,27 @@ const tabs = [
 
     <!-- Interactions tab -->
     <Card v-else :style="{ padding: 0, overflow: 'hidden' }">
-      <table class="data-table">
-        <thead>
-          <tr><th>Severidade</th><th>Combinação</th><th>Doente</th><th>Nota</th><th>Quando</th><th>Estado</th></tr>
-        </thead>
-        <tbody>
-          <tr v-for="i in D.interactions" :key="i.id">
-            <td><Tag :severity="sevMap[i.sev].tone">{{ sevMap[i.sev].label }}</Tag></td>
-            <td :style="{ fontWeight: 500 }">
-              {{ i.drug1 }} <span :style="{ color: 'var(--foreground-muted)', fontWeight: 400 }">+</span> {{ i.drug2 }}
-            </td>
-            <td>{{ i.patient }}</td>
-            <td :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)', maxWidth: '320px' }">{{ i.note }}</td>
-            <td :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">{{ i.when }}</td>
-            <td>
-              <Tag v-if="i.resolved" severity="success">Resolvida</Tag>
-              <Button v-else outlined size="small">Resolver</Button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <DataTable :value="D.interactions" :rowHover="true" stripedRows>
+        <Column header="Severidade">
+          <template #body="{ data }">
+            <Tag :severity="sevMap[data.sev].tone">{{ sevMap[data.sev].label }}</Tag>
+          </template>
+        </Column>
+        <Column header="Combinação" :pt="{ bodyCell: { style: { fontWeight: 500 } } }">
+          <template #body="{ data }">
+            {{ data.drug1 }} <span :style="{ color: 'var(--foreground-muted)', fontWeight: 400 }">+</span> {{ data.drug2 }}
+          </template>
+        </Column>
+        <Column header="Doente" field="patient"/>
+        <Column header="Nota" :pt="{ bodyCell: { style: { color: 'var(--foreground-muted)', maxWidth: '320px', fontSize: '12.5px' } } }" field="note"/>
+        <Column header="Quando" field="when" :pt="{ bodyCell: { style: { color: 'var(--foreground-muted)' } } }"/>
+        <Column header="Estado">
+          <template #body="{ data }">
+            <Tag v-if="data.resolved" severity="success">Resolvida</Tag>
+            <Button v-else outlined size="small">Resolver</Button>
+          </template>
+        </Column>
+      </DataTable>
     </Card>
   </div>
 </template>
