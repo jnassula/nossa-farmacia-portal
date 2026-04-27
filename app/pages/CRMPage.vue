@@ -32,7 +32,7 @@ const tabs = computed(() => [
 
 const phaName = (id) => (D.pharmacies.find(p => p.id === id)?.name || '—').replace('Farmácia Nossa ', '');
 
-const segmentTone = (segment) => segment === 'Cartão Ouro' ? 'warning' : segment === 'Cartão Sénior' ? 'info' : 'neutral';
+const segmentTone = (segment) => segment === 'Cartão Ouro' ? 'warn' : segment === 'Cartão Sénior' ? 'info' : 'neutral';
 const segmentColor = (id) => id === 'gold' ? 'oklch(0.780 0.160 78)'
                             : id === 'senior' ? 'oklch(0.640 0.140 230)'
                             : id === 'card' ? 'var(--primary)'
@@ -53,8 +53,8 @@ const customerActivity = [
       CRM · Clientes
       <template #action>
         <div :style="{ display: 'flex', gap: '8px' }">
-          <Btn variant="ghost"><IDownload :size="14"/> Exportar</Btn>
-          <Btn variant="primary"><IPlus :size="14"/> Novo cliente</Btn>
+          <Button text severity="secondary"><IDownload :size="14"/> Exportar</Button>
+          <Button severity="primary"><IPlus :size="14"/> Novo cliente</Button>
         </div>
       </template>
     </SectionTitle>
@@ -104,7 +104,7 @@ const customerActivity = [
                   </div>
                 </div>
               </td>
-              <td><Pill :tone="segmentTone(c.segment)" dot>{{ c.segment }}</Pill></td>
+              <td><Tag :severity="segmentTone(c.segment)">{{ c.segment }}</Tag></td>
               <td :style="{ fontSize: '12.5px' }">{{ phaName(c.pharmacy) }}</td>
               <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }">{{ c.visits }}</td>
               <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 }">{{ eur(c.spend) }}</td>
@@ -156,8 +156,8 @@ const customerActivity = [
       :subtitle="selected ? `${selected.segment} · NIF ${selected.nif}` : ''"
       @close="selected = null">
       <template #footer>
-        <Btn variant="ghost">Histórico completo</Btn>
-        <Btn variant="primary">Iniciar atendimento</Btn>
+        <Button text severity="secondary">Histórico completo</Button>
+        <Button severity="primary">Iniciar atendimento</Button>
       </template>
 
       <div v-if="selected" :style="{ display: 'flex', flexDirection: 'column', gap: '20px' }">
@@ -166,8 +166,8 @@ const customerActivity = [
           <div :style="{ flex: 1 }">
             <div :style="{ fontSize: '13px', color: 'var(--foreground-muted)' }">Cliente desde {{ selected.joined }}</div>
             <div :style="{ display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap' }">
-              <Pill tone="success" dot>Ativo</Pill>
-              <Pill :tone="selected.segment === 'Cartão Ouro' ? 'warning' : 'info'" dot>{{ selected.segment }}</Pill>
+              <Tag severity="success">Ativo</Tag>
+              <Tag :severity="selected.segment === 'Cartão Ouro' ? 'warn' : 'info'">{{ selected.segment }}</Tag>
             </div>
           </div>
         </div>
@@ -182,7 +182,7 @@ const customerActivity = [
         <div v-if="selected.conditions.length > 0">
           <div :style="{ fontSize: '12px', fontWeight: 600, color: 'var(--foreground-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }">Condições</div>
           <div :style="{ display: 'flex', gap: '6px', flexWrap: 'wrap' }">
-            <Pill v-for="x in selected.conditions" :key="x" tone="neutral">{{ x }}</Pill>
+            <Tag v-for="x in selected.conditions" :key="x" severity="neutral">{{ x }}</Tag>
           </div>
         </div>
 

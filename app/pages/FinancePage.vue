@@ -68,9 +68,9 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
         <p :style="{ color: 'var(--foreground-muted)', fontSize: '13.5px', margin: '4px 0 0' }">Contas correntes, fluxo de caixa e relatórios fiscais</p>
       </div>
       <div :style="{ display: 'flex', gap: '8px' }">
-        <Btn variant="secondary"><IBank :size="14"/> Reconciliação</Btn>
-        <Btn variant="secondary"><IDownload :size="14"/> SAF-T</Btn>
-        <Btn><IPlus :size="14"/> Lançamento</Btn>
+        <Button severity="secondary" outlined><IBank :size="14"/> Reconciliação</Button>
+        <Button severity="secondary" outlined><IDownload :size="14"/> SAF-T</Button>
+        <Button><IPlus :size="14"/> Lançamento</Button>
       </div>
     </div>
 
@@ -141,9 +141,9 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
               :style="{ height: '36px', paddingLeft: '32px', width: '240px', fontSize: '13px' }"
               :placeholder="tab === 'receivables' ? 'Procurar entidade…' : 'Procurar fornecedor…'"/>
           </div>
-          <Btn variant="secondary" size="sm"><IFilter :size="13"/> Estado</Btn>
-          <Btn variant="secondary" size="sm"><ICalendar :size="13"/> Período</Btn>
-          <Btn variant="secondary" size="sm"><IDownload :size="13"/> Exportar</Btn>
+          <Button severity="secondary" outlined size="small"><IFilter :size="13"/> Estado</Button>
+          <Button severity="secondary" outlined size="small"><ICalendar :size="13"/> Período</Button>
+          <Button severity="secondary" outlined size="small"><IDownload :size="13"/> Exportar</Button>
         </div>
       </div>
 
@@ -170,22 +170,22 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
                   <span :style="{ fontWeight: 500 }">{{ r.counterparty }}</span>
                 </div>
               </td>
-              <td><Pill tone="neutral">{{ r.type }}</Pill></td>
+              <td><Tag severity="secondary">{{ r.type }}</Tag></td>
               <td>
                 <div :style="{ fontSize: '12.5px' }">{{ new Date(r.due).toLocaleDateString('pt-PT') }}</div>
                 <div :style="{ fontSize: '11px', color: dueColor(r.days) }">{{ dueLabel(r.days) }}</div>
               </td>
               <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eur(r.amount) }}</td>
               <td>
-                <Pill v-if="r.status === 'pending'"   tone="warning" dot>Pendente</Pill>
-                <Pill v-if="r.status === 'overdue'"   tone="danger"  dot>Em atraso</Pill>
-                <Pill v-if="r.status === 'paid'"      tone="success" dot>Liquidado</Pill>
-                <Pill v-if="r.status === 'scheduled'" tone="info"    dot>Agendado</Pill>
+                <Tag v-if="r.status === 'pending'"   severity="warning">Pendente</Tag>
+                <Tag v-if="r.status === 'overdue'"   severity="danger">Em atraso</Tag>
+                <Tag v-if="r.status === 'paid'"      severity="success">Liquidado</Tag>
+                <Tag v-if="r.status === 'scheduled'" severity="info">Agendado</Tag>
               </td>
               <td>
                 <div :style="{ display: 'flex', gap: '4px' }">
-                  <IconBtn :title="'Ver'"><IEye :size="14"/></IconBtn>
-                  <IconBtn :title="'Mais'"><IMore :size="14"/></IconBtn>
+                  <Button text severity="secondary" :title="'Ver'"><IEye :size="14"/></Button>
+                  <Button text severity="secondary" :title="'Mais'"><IMore :size="14"/></Button>
                 </div>
               </td>
             </tr>
@@ -201,8 +201,8 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
           {{ eur(tab === 'receivables' ? totalRec : totalPay) }}
         </span>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '8px' }">
-          <Btn variant="secondary" size="sm">Marcar selecionados como pagos</Btn>
-          <Btn size="sm"><IBank :size="13"/> Reconciliar</Btn>
+          <Button severity="secondary" outlined size="small">Marcar selecionados como pagos</Button>
+          <Button size="small"><IBank :size="13"/> Reconciliar</Button>
         </div>
       </div>
     </Card>

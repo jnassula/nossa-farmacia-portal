@@ -81,7 +81,7 @@ const integrations = [
             <div :style="{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '14px' }">
               <Avatar name="Inês Carvalho" :size="64"/>
               <div>
-                <Btn variant="ghost" size="sm">Carregar foto</Btn>
+                <Button text severity="secondary" size="small">Carregar foto</Button>
                 <div :style="{ fontSize: '11px', color: 'var(--foreground-muted)', marginTop: '4px' }">JPG ou PNG · até 2 MB</div>
               </div>
             </div>
@@ -118,8 +118,8 @@ const integrations = [
             </div>
           </div>
           <div :style="{ padding: '12px 22px', borderTop: '1px solid var(--border-subtle)', background: 'var(--surface-sunken)', display: 'flex', justifyContent: 'flex-end', gap: '8px' }">
-            <Btn variant="ghost">Cancelar</Btn>
-            <Btn variant="primary">Guardar</Btn>
+            <Button text severity="secondary">Cancelar</Button>
+            <Button severity="primary">Guardar</Button>
           </div>
         </Card>
 
@@ -137,7 +137,7 @@ const integrations = [
             <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Encarregado de proteção de dados</div></div><div><input :style="inpStyle" value="dpo@nossafarmacia.pt"/></div></div>
           </div>
           <div :style="{ padding: '12px 22px', borderTop: '1px solid var(--border-subtle)', background: 'var(--surface-sunken)', display: 'flex', justifyContent: 'flex-end', gap: '8px' }">
-            <Btn variant="primary">Guardar</Btn>
+            <Button severity="primary">Guardar</Button>
           </div>
         </Card>
 
@@ -159,7 +159,7 @@ const integrations = [
                   <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">{{ r.perms }}</div>
                 </div>
                 <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">{{ r.members }} membros</div>
-                <Btn variant="ghost" size="sm">Editar</Btn>
+                <Button text severity="secondary" size="small">Editar</Button>
               </div>
             </div>
           </div>
@@ -180,8 +180,8 @@ const integrations = [
                   <div :style="{ fontSize: '13.5px', fontWeight: 600 }">{{ it.name }}</div>
                   <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ it.desc }}</div>
                 </div>
-                <Pill v-if="it.status === 'connected'" tone="success" dot>Ativa</Pill>
-                <Pill v-else tone="warning" dot>Pendente</Pill>
+                <Tag v-if="it.status === 'connected'" severity="success">Ativa</Tag>
+                <Tag v-else severity="warning">Pendente</Tag>
               </div>
             </div>
           </div>
@@ -200,14 +200,14 @@ const integrations = [
                   <div :style="{ fontSize: '13px', fontWeight: 500 }">Verificação em 2 passos</div>
                   <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Obrigatório para todos os papéis administrativos.</div>
                 </div>
-                <div><Pill tone="success" dot>Ativo</Pill></div>
+                <div><Tag severity="success">Ativo</Tag></div>
               </div>
               <div :style="fieldRowStyle">
                 <div>
                   <div :style="{ fontSize: '13px', fontWeight: 500 }">SSO · Microsoft 365</div>
                   <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Início de sessão único com a conta corporativa.</div>
                 </div>
-                <div><Btn variant="ghost" size="sm">Configurar</Btn></div>
+                <div><Button text severity="secondary" size="small">Configurar</Button></div>
               </div>
               <div :style="fieldRowStyle">
                 <div>
@@ -233,11 +233,11 @@ const integrations = [
                   <div :style="{ fontSize: '13px', fontWeight: 500 }">Registos preservados</div>
                   <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Acesso, alterações e exportações.</div>
                 </div>
-                <div><Pill tone="info" dot>365 dias</Pill></div>
+                <div><Tag severity="info">365 dias</Tag></div>
               </div>
               <div :style="fieldRowStyle">
                 <div><div :style="{ fontSize: '13px', fontWeight: 500 }">Exportar registo de auditoria</div></div>
-                <div><Btn variant="ghost" size="sm"><IDownload :size="14"/> Exportar (.csv)</Btn></div>
+                <div><Button text severity="secondary" size="small"><IDownload :size="14"/> Exportar (.csv)</Button></div>
               </div>
             </div>
           </Card>
@@ -268,11 +268,11 @@ const integrations = [
                 <div :style="{ fontSize: '13px', fontWeight: 500 }">Método de pagamento</div>
                 <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Visa terminado em 4218.</div>
               </div>
-              <div><Btn variant="ghost" size="sm">Alterar</Btn></div>
+              <div><Button text severity="secondary" size="small">Alterar</Button></div>
             </div>
             <div :style="fieldRowStyle">
               <div><div :style="{ fontSize: '13px', fontWeight: 500 }">Faturas</div></div>
-              <div><Btn variant="ghost" size="sm"><IDownload :size="14"/> Histórico (12)</Btn></div>
+              <div><Button text severity="secondary" size="small"><IDownload :size="14"/> Histórico (12)</Button></div>
             </div>
           </div>
         </Card>

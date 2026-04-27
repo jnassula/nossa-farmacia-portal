@@ -35,8 +35,8 @@ const donutData = [
         <p :style="{ color: 'var(--foreground-muted)', fontSize: '13.5px', margin: '4px 0 0' }">Campanhas, MKT+ e gestão de presença digital</p>
       </div>
       <div :style="{ display: 'flex', gap: '8px' }">
-        <Btn variant="secondary"><ICalendar :size="14"/> Calendário</Btn>
-        <Btn><IPlus :size="14"/> Nova campanha</Btn>
+        <Button severity="secondary" outlined><ICalendar :size="14"/> Calendário</Button>
+        <Button><IPlus :size="14"/> Nova campanha</Button>
       </div>
     </div>
 
@@ -71,9 +71,9 @@ const donutData = [
               <div :style="{ flex: 1, minWidth: 0 }">
                 <div :style="{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }">
                   <span :style="{ fontSize: '14px', fontWeight: 600 }">{{ c.name }}</span>
-                  <Pill v-if="c.status === 'active'"    tone="success" dot>Ativa</Pill>
-                  <Pill v-if="c.status === 'scheduled'" tone="info"    dot>Agendada</Pill>
-                  <Pill v-if="c.status === 'ended'"     tone="neutral">Concluída</Pill>
+                  <Tag v-if="c.status === 'active'"    severity="success">Ativa</Tag>
+                  <Tag v-if="c.status === 'scheduled'" severity="info">Agendada</Tag>
+                  <Tag v-if="c.status === 'ended'"     severity="neutral">Concluída</Tag>
                 </div>
                 <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }">
                   <span>{{ c.channel }}</span><span>•</span><span>{{ c.starts }} → {{ c.ends }}</span>
@@ -101,7 +101,7 @@ const donutData = [
                   <ProgressBar :value="c.spent" :max="c.budget" :color="c.spent / c.budget > 0.9 ? 'var(--signal-warning)' : 'var(--primary)'"/>
                 </div>
               </div>
-              <IconBtn><IMore :size="14"/></IconBtn>
+              <Button text severity="secondary"><IMore :size="14"/></Button>
             </div>
           </div>
         </div>
@@ -134,7 +134,7 @@ const donutData = [
               <div class="card-title">Reviews · este mês</div>
               <div class="card-subtitle">Google + Facebook · grupo</div>
             </div>
-            <Btn variant="ghost" size="sm">Responder</Btn>
+            <Button text severity="secondary" size="small">Responder</Button>
           </div>
           <div :style="{ padding: '4px 0' }">
             <div v-for="(r, i) in reviews" :key="i"

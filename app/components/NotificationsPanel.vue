@@ -31,7 +31,7 @@ const sevMap = {
             {{ notifications.filter(n => n.unread).length }} novas
           </div>
         </div>
-        <Btn variant="ghost" size="sm" @click="markAllRead">Marcar como lidas</Btn>
+        <Button text severity="secondary" size="small" @click="markAllRead">Marcar como lidas</Button>
       </div>
 
       <div :style="{ flex: 1, overflowY: 'auto', padding: '6px' }">

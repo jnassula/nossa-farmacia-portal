@@ -70,7 +70,7 @@ const sevMap = {
   info:    { bg: 'oklch(0.95 0.05 230)', fg: 'oklch(0.45 0.16 230)', icon: 'IInfo'  },
 };
 
-const statusPill = (s) => s === 'top' ? 'success' : s === 'good' ? 'neutral' : 'warning';
+const statusPill = (s) => s === 'top' ? 'success' : s === 'good' ? 'neutral' : 'warn';
 const statusLabel = (s) => s === 'top' ? 'Top' : s === 'good' ? 'Bom' : 'Atenção';
 
 // ---- Local: Kpi com sparkline (variante do dashboard) ---------------------
@@ -110,8 +110,8 @@ const Kpi = (_p, { attrs }) => {
       </div>
       <div :style="{ display: 'flex', gap: '8px', alignItems: 'center' }">
         <Tabs :value="range" :tabs="rangeTabs" @change="(id) => range = id"/>
-        <Btn variant="secondary" size="md"><ICalendar :size="14"/> 26 mar — 26 abr</Btn>
-        <Btn variant="secondary" size="md"><IDownload :size="14"/> Exportar</Btn>
+        <Button severity="secondary" outlined><ICalendar :size="14"/> 26 mar — 26 abr</Button>
+        <Button severity="secondary" outlined><IDownload :size="14"/> Exportar</Button>
       </div>
     </div>
 
@@ -168,7 +168,7 @@ const Kpi = (_p, { attrs }) => {
             <div class="card-title">Top 5 produtos</div>
             <div class="card-subtitle">Por unidades vendidas · este mês</div>
           </div>
-          <Btn variant="ghost" size="sm">Ver tudo</Btn>
+          <Button text severity="secondary" size="small">Ver tudo</Button>
         </div>
         <div :style="{ padding: '4px 0' }">
           <div v-for="(p, i) in D.topProducts" :key="p.id" class="row-hover"
@@ -239,7 +239,7 @@ const Kpi = (_p, { attrs }) => {
             <div class="card-title">Alertas críticos</div>
             <div class="card-subtitle">{{ D.alerts.length }} alertas · {{ D.alerts.filter(a => a.sev === 'danger').length }} prioritários</div>
           </div>
-          <Btn variant="ghost" size="sm">Ver tudo</Btn>
+          <Button text severity="secondary" size="small">Ver tudo</Button>
         </div>
         <div :style="{ padding: '4px 0' }">
           <div v-for="a in D.alerts" :key="a.id" class="row-hover"
@@ -295,7 +295,7 @@ const Kpi = (_p, { attrs }) => {
                 <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eur(p.revenue) }}</td>
                 <td><Sparkline :data="[80, 92, 88, 102, 110, 118, 124, 130 + i * 4]" :width="70" :height="20"/></td>
                 <td :style="{ textAlign: 'right' }"><Trend :value="p.growth"/></td>
-                <td><Pill :tone="statusPill(p.status)" dot>{{ statusLabel(p.status) }}</Pill></td>
+                <td><Tag :severity="statusPill(p.status)">{{ statusLabel(p.status) }}</Tag></td>
               </tr>
             </tbody>
           </table>
@@ -308,7 +308,7 @@ const Kpi = (_p, { attrs }) => {
             <div class="card-title">Atividade recente</div>
             <div class="card-subtitle">Últimas ações · todas as unidades</div>
           </div>
-          <IconBtn :title="'Atualizar'"><IRefreshCw :size="14"/></IconBtn>
+          <Button text severity="secondary" :title="'Atualizar'"><IRefreshCw :size="14"/></Button>
         </div>
         <div :style="{ padding: '4px 0', maxHeight: '360px', overflowY: 'auto' }">
           <div v-for="a in D.recentActivity" :key="a.id"

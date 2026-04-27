@@ -6,7 +6,7 @@ const filter = ref('all');
 
 const statusMap = {
   overdue:     { label: 'Atrasado',   tone: 'danger'  },
-  pending:     { label: 'Pendente',   tone: 'warning' },
+  pending:     { label: 'Pendente',   tone: 'warn' },
   in_progress: { label: 'Em curso',    tone: 'info'   },
   scheduled:   { label: 'Agendado',    tone: 'neutral' },
   done:        { label: 'Concluído',  tone: 'success' },
@@ -29,7 +29,7 @@ const tabs = computed(() => [
     <SectionTitle sub="INFARMED · RGPD · Manipulados · Estupefacientes · Formação · Ordem dos Farmacêuticos">
       Compliance
       <template #action>
-        <Btn variant="primary"><IPlus :size="14"/> Nova obrigação</Btn>
+        <Button severity="primary"><IPlus :size="14"/> Nova obrigação</Button>
       </template>
     </SectionTitle>
 
@@ -57,7 +57,7 @@ const tabs = computed(() => [
         </thead>
         <tbody>
           <tr v-for="c in filtered" :key="c.id">
-            <td><Pill tone="neutral">{{ c.kind }}</Pill></td>
+            <td><Tag severity="secondary">{{ c.kind }}</Tag></td>
             <td :style="{ fontWeight: 500, maxWidth: '280px' }">{{ c.title }}</td>
             <td :style="{ fontSize: '12.5px' }">
               <em v-if="c.pharmacy === 'all'" :style="{ color: 'var(--foreground-muted)' }">Grupo</em>
@@ -66,12 +66,12 @@ const tabs = computed(() => [
             <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ c.doc }}</td>
             <td :style="{ fontSize: '12.5px', fontVariantNumeric: 'tabular-nums' }">{{ c.due }}</td>
             <td>
-              <Pill v-if="c.priority === 'high'" tone="danger" dot>Alta</Pill>
-              <Pill v-else-if="c.priority === 'medium'" tone="warning" dot>Média</Pill>
-              <Pill v-else tone="neutral">Baixa</Pill>
+              <Tag v-if="c.priority === 'high'" severity="danger">Alta</Tag>
+              <Tag v-else-if="c.priority === 'medium'" severity="warning">Média</Tag>
+              <Tag v-else severity="neutral">Baixa</Tag>
             </td>
-            <td><Pill :tone="statusMap[c.status].tone" dot>{{ statusMap[c.status].label }}</Pill></td>
-            <td :style="{ textAlign: 'right' }"><Btn variant="ghost" size="sm">Abrir</Btn></td>
+            <td><Tag :severity="statusMap[c.status].tone">{{ statusMap[c.status].label }}</Tag></td>
+            <td :style="{ textAlign: 'right' }"><Button text severity="secondary" size="small">Abrir</Button></td>
           </tr>
         </tbody>
       </table>

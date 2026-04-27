@@ -173,8 +173,8 @@ const filterPillStyle = (cat) => ({
             +{{ topPharmacy?.growth }}% · NPS 78 · {{ topPharmacy?.city }}
           </div>
           <div :style="{ display: 'flex', gap: '6px', marginTop: '12px' }">
-            <Pill tone="success">▲ Crescimento</Pill>
-            <Pill tone="info">★ NPS top</Pill>
+            <Tag severity="success">▲ Crescimento</Tag>
+            <Tag severity="info">★ NPS top</Tag>
           </div>
         </Card>
 

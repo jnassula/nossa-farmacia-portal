@@ -138,10 +138,10 @@ const pharmacyCard = {
           </label>
         </div>
 
-        <Btn type="submit" size="lg" :style="{ width: '100%', marginTop: '22px' }" :disabled="loading">
+        <Button type="submit" size="large" :style="{ width: '100%', marginTop: '22px' }" :disabled="loading">
           {{ loading ? 'A entrar…' : 'Entrar' }}
           <IArrowRight v-if="!loading" :size="15"/>
-        </Btn>
+        </Button>
 
         <div :style="{ display: 'flex', alignItems: 'center', gap: '12px', margin: '22px 0', color: 'var(--foreground-subtle)', fontSize: '11.5px' }">
           <div :style="{ flex: 1, height: '1px', background: 'var(--border)' }"/>

@@ -25,9 +25,9 @@ const kbdStyle = {
       height: '64px', display: 'flex', alignItems: 'center',
       padding: '0 24px', gap: '16px',
     }">
-    <IconBtn :title="'Alternar menu'" @click="emit('toggle-sidebar')">
+    <Button text severity="secondary" :title="'Alternar menu'" @click="emit('toggle-sidebar')">
       <ISidebar :size="17"/>
-    </IconBtn>
+    </Button>
 
     <div :style="{ flex: '0 0 auto', minWidth: 0 }">
       <div v-if="breadcrumbs && breadcrumbs.length" class="tb-breadcrumbs"
@@ -55,19 +55,19 @@ const kbdStyle = {
       </span>
     </button>
 
-    <IconBtn class="tb-search-icon" bordered :title="'Procurar'"
+    <Button text severity="secondary" class="tb-search-icon" bordered :title="'Procurar'"
       :style="{ display: 'none', marginLeft: 'auto' }"
       @click="emit('open-search')">
       <ISearch :size="16"/>
-    </IconBtn>
+    </Button>
 
-    <IconBtn bordered :title="'Notificações'"
+    <Button severity="secondary" outlined :title="'Notificações'"
       :style="{ position: 'relative' }"
       @click="emit('open-notifs')">
       <IBell :size="16"/>
       <span v-if="unreadCount > 0"
         :style="{ position: 'absolute', top: '6px', right: '6px', width: '8px', height: '8px', borderRadius: '999px', background: 'var(--danger)', border: '2px solid var(--surface)' }"/>
-    </IconBtn>
+    </Button>
 
     <div class="tb-user-pill"
       :style="{ display: 'flex', alignItems: 'center', gap: '10px', padding: '4px 6px 4px 4px', borderRadius: '999px', border: '1px solid var(--border)', background: 'var(--surface)' }">

@@ -27,7 +27,7 @@ const orderTabs = [
 ];
 
 const orderStatusMap = {
-  preparing:  { tone: 'warning', label: 'Em preparação' },
+  preparing:  { tone: 'warn', label: 'Em preparação' },
   in_transit: { tone: 'info',    label: 'Em trânsito' },
   shipped:    { tone: 'info',    label: 'Expedida' },
   delivered:  { tone: 'success', label: 'Entregue' },
@@ -85,9 +85,9 @@ const upBars = Array.from({ length: 40 }, (_, i) => ({
         <p :style="{ color: 'var(--foreground-muted)', fontSize: '13.5px', margin: '4px 0 0' }">Loja online · Glovo · Bolt Food · Uber Eats · vista consolidada</p>
       </div>
       <div :style="{ display: 'flex', gap: '8px', alignItems: 'center' }">
-        <Pill tone="success" dot>Sistemas operacionais</Pill>
-        <Btn variant="secondary"><ILink :size="14"/> Integrações</Btn>
-        <Btn variant="secondary"><IDownload :size="14"/> Exportar</Btn>
+        <Tag severity="success">Sistemas operacionais</Tag>
+        <Button severity="secondary" outlined><ILink :size="14"/> Integrações</Button>
+        <Button severity="secondary" outlined><IDownload :size="14"/> Exportar</Button>
       </div>
     </div>
 
@@ -189,8 +189,8 @@ const upBars = Array.from({ length: 40 }, (_, i) => ({
               <td :style="{ textAlign: 'center' }">{{ o.items }}</td>
               <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eurD(o.value) }}</td>
               <td :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)' }">{{ o.eta }}</td>
-              <td><Pill :tone="orderStatusMap[o.status].tone" dot>{{ orderStatusMap[o.status].label }}</Pill></td>
-              <td><IconBtn><IMore :size="14"/></IconBtn></td>
+              <td><Tag :severity="orderStatusMap[o.status].tone">{{ orderStatusMap[o.status].label }}</Tag></td>
+              <td><Button text severity="secondary"><IMore :size="14"/></Button></td>
             </tr>
           </tbody>
         </table>

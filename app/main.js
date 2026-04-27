@@ -1,11 +1,13 @@
 // main.js
-// Bootstrap Vue 3 (zero-build, via CDN UMD).
+// Bootstrap Vue 3 + PrimeVue 4 (zero-build, via CDN UMD).
 // - Carrega .vue em runtime via vue3-sfc-loader.
-// - Regista globalmente todos os helpers Nossa (icons, primitives, charts, tweaks)
-//   anexados a window por icons.js / primitives.js / charts.js / tweaks.js.
-// - Regista o plugin PrimeVue (com preset Nossa) para que continue disponivel a
-//   quem precisar em fases futuras; nao regista componentes PrimeVue para evitar
-//   colisoes com os primitives Nossa (Card, Avatar, Tabs, Drawer, Toast, ...).
+// - Regista o plugin PrimeVue (com preset Nossa) e todos os componentes
+//   PrimeVue mais usados como globais.
+// - Tambem regista helpers Nossa (icons, primitives, charts, tweaks). Para
+//   nomes que conflitam com PrimeVue (Card, Avatar, Tabs, Drawer, Toast,
+//   ProgressBar) a migracao acontece por fases — ate todos os SFCs passarem
+//   a usar a API PrimeVue, alguns continuam registados em duplicado e a
+//   ultima registo vence (ver bloco PRIMITIVES_REMAINING abaixo).
 
 (function () {
   const Vue = window.Vue;
@@ -44,20 +46,58 @@
   // -- Cria app e monta -----------------------------------------------------
   const app = createApp(sfc('./app/App.vue'));
 
-  // Plugin PrimeVue (opcional). Carregado se disponivel; sem registo de
-  // componentes para nao colidir com primitives Nossa (Card, Avatar, ...).
+  // -- Plugin PrimeVue + ToastService ---------------------------------------
   const PrimeVuePkg = window.PrimeVue;
   const NossaPreset = window.NossaPreset;
-  if (PrimeVuePkg && PrimeVuePkg.PrimeVue && typeof PrimeVuePkg.PrimeVue.install === 'function') {
-    const opts = { ripple: false };
-    if (NossaPreset) {
-      opts.theme = {
-        preset: NossaPreset,
-        options: { prefix: 'p', darkModeSelector: '[data-theme="dark"]', cssLayer: false },
-      };
-    }
-    app.use(PrimeVuePkg.PrimeVue, opts);
-    if (PrimeVuePkg.ToastService) app.use(PrimeVuePkg.ToastService);
+  if (!PrimeVuePkg || !PrimeVuePkg.PrimeVue || typeof PrimeVuePkg.PrimeVue.install !== 'function') {
+    return console.error('[main] PrimeVue plugin nao disponivel.');
+  }
+  const opts = { ripple: false };
+  if (NossaPreset) {
+    opts.theme = {
+      preset: NossaPreset,
+      options: { prefix: 'p', darkModeSelector: '[data-theme="dark"]', cssLayer: false },
+    };
+  }
+  app.use(PrimeVuePkg.PrimeVue, opts);
+  if (PrimeVuePkg.ToastService) app.use(PrimeVuePkg.ToastService);
+  if (PrimeVuePkg.ConfirmationService) app.use(PrimeVuePkg.ConfirmationService);
+
+  // -- Registo global de componentes PrimeVue --------------------------------
+  // Nomes correspondem a componentes oficiais PrimeVue 4. Os SFCs usam-nos
+  // directamente em templates (ex.: <Button>, <Tag>, <DataTable> + <Column>).
+  const PRIMEVUE_COMPS = [
+    // Buttons / inputs basicos
+    'Button', 'Tag', 'Avatar', 'AvatarGroup', 'Badge', 'Chip',
+    'InputText', 'InputNumber', 'Textarea', 'Password',
+    'Checkbox', 'RadioButton', 'ToggleSwitch', 'ToggleButton',
+    'Select', 'MultiSelect', 'AutoComplete', 'CascadeSelect',
+    'DatePicker', 'ColorPicker', 'Slider', 'Rating', 'SelectButton',
+    'FileUpload',
+    // Containers / overlays
+    'Card', 'Panel', 'Fieldset', 'Divider', 'Splitter', 'SplitterPanel',
+    'Dialog', 'Drawer', 'Popover', 'Tooltip',
+    // Data
+    'DataTable', 'Column', 'ColumnGroup', 'Row', 'TreeTable',
+    'DataView', 'OrderList', 'PickList', 'VirtualScroller',
+    'Paginator',
+    // Tabs / steppers / accordions
+    'Tabs', 'TabList', 'Tab', 'TabPanels', 'TabPanel',
+    'Stepper', 'Step', 'StepList', 'StepItem', 'StepPanels', 'StepPanel',
+    'Accordion', 'AccordionPanel', 'AccordionHeader', 'AccordionContent',
+    // Menus
+    'Menu', 'Menubar', 'TieredMenu', 'ContextMenu', 'PanelMenu',
+    'MegaMenu', 'Breadcrumb',
+    // Feedback
+    'Toast', 'Message', 'InlineMessage', 'ProgressBar', 'ProgressSpinner',
+    'Skeleton',
+    // Misc
+    'Chart', 'Image', 'Galleria', 'IconField', 'InputIcon',
+    'IftaLabel', 'FloatLabel',
+  ];
+  for (const name of PRIMEVUE_COMPS) {
+    const comp = PrimeVuePkg[name];
+    if (comp) app.component(name, comp.default || comp);
   }
 
   // -- Registo global de icons (window.I) -----------------------------------
@@ -68,15 +108,20 @@
     }
   }
 
-  // -- Registo global de primitives -----------------------------------------
-  // Card, Pill, Btn, IconBtn, Avatar, Tabs, Drawer, Modal, Toast,
-  // SectionTitle, Trend, Empty.
-  const PRIMITIVES = [
-    'Card', 'Pill', 'Btn', 'IconBtn', 'Avatar', 'Tabs',
-    'Drawer', 'Modal', 'Toast', 'SectionTitle', 'Trend', 'Empty',
+  // -- Registo global de primitives Nossa ainda nao migrados ----------------
+  // Estes componentes sao especificos do dominio Nossa e nao tem equivalente
+  // PrimeVue (ou tem-no com aspecto muito diferente). Sao registados DEPOIS
+  // do PrimeVue, por isso para nomes em conflito (Card, Avatar, Drawer,
+  // Toast, Tabs, ProgressBar) a versao Nossa vence — sera removida da lista
+  // a medida que cada fase de migracao for concluida.
+  const PRIMITIVES_REMAINING = [
+    // Sem equivalente directo em PrimeVue:
+    'Pill', 'Btn', 'IconBtn', 'SectionTitle', 'Trend', 'Empty',
     'KPI', 'Stat', 'Kpi', 'Legend', 'MiniStat',
+    // Em conflito com PrimeVue — vai sendo removido por fase:
+    'Card', 'Avatar', 'Drawer', 'Toast', 'Tabs', 'ProgressBar',
   ];
-  for (const name of PRIMITIVES) {
+  for (const name of PRIMITIVES_REMAINING) {
     if (window[name]) app.component(name, window[name]);
   }
 

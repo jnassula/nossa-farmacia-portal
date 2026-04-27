@@ -28,7 +28,7 @@ const rentabRows = computed(() => D.pharmacies.map(p => {
   const margin = (ebitda / p.revenue * 100).toFixed(1);
   return { ...p, cogs, opex, ebitda, margin };
 }));
-const marginTone = (m) => m > 15 ? 'success' : m > 10 ? 'warning' : 'danger';
+const marginTone = (m) => m > 15 ? 'success' : m > 10 ? 'warn' : 'danger';
 
 // Categorias
 const cats = [
@@ -61,8 +61,8 @@ const cellTextColor = (v) => v > 60 ? 'var(--brand-emerald-800)' : 'var(--foregr
       Relatórios · BI
       <template #action>
         <div :style="{ display: 'flex', gap: '8px' }">
-          <Btn variant="ghost"><ICalendar :size="14"/> Período · Abr 2026</Btn>
-          <Btn variant="ghost"><IDownload :size="14"/> Exportar</Btn>
+          <Button text severity="secondary"><ICalendar :size="14"/> Período · Abr 2026</Button>
+          <Button text severity="secondary"><IDownload :size="14"/> Exportar</Button>
         </div>
       </template>
     </SectionTitle>
@@ -133,7 +133,7 @@ const cellTextColor = (v) => v > 60 ? 'var(--brand-emerald-800)' : 'var(--foregr
             <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--foreground-muted)' }">{{ eur(r.cogs) }}</td>
             <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', color: 'var(--foreground-muted)' }">{{ eur(r.opex) }}</td>
             <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }">{{ eur(r.ebitda) }}</td>
-            <td :style="{ textAlign: 'right' }"><Pill :tone="marginTone(parseFloat(r.margin))" dot>{{ r.margin }}%</Pill></td>
+            <td :style="{ textAlign: 'right' }"><Tag :severity="marginTone(parseFloat(r.margin))">{{ r.margin }}%</Tag></td>
           </tr>
         </tbody>
       </table>

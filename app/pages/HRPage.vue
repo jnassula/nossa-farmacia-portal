@@ -35,8 +35,8 @@ const shiftTone = (sh) => {
       Equipa
       <template #action>
         <div :style="{ display: 'flex', gap: '8px' }">
-          <Btn variant="ghost"><ICalendar :size="14"/> Escala</Btn>
-          <Btn variant="primary"><IPlus :size="14"/> Convidar</Btn>
+          <Button text severity="secondary"><ICalendar :size="14"/> Escala</Button>
+          <Button severity="primary"><IPlus :size="14"/> Convidar</Button>
         </div>
       </template>
     </SectionTitle>
@@ -66,8 +66,8 @@ const shiftTone = (sh) => {
             <div :style="{ fontSize: '14px', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }">{{ t.name }}</div>
             <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">{{ t.role }}</div>
           </div>
-          <Pill v-if="t.status === 'leave'" tone="warning" dot>Ausente</Pill>
-          <Pill v-else tone="success" dot>Ativo</Pill>
+          <Tag v-if="t.status === 'leave'" severity="warning">Ausente</Tag>
+          <Tag v-else severity="success">Ativo</Tag>
         </div>
         <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '12.5px' }">
           <div :style="{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--foreground-muted)' }">
@@ -81,7 +81,7 @@ const shiftTone = (sh) => {
           </div>
         </div>
         <div :style="{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '12px' }">
-          <Pill v-for="s in t.skills" :key="s" tone="neutral">{{ s }}</Pill>
+          <Tag v-for="s in t.skills" :key="s" severity="neutral">{{ s }}</Tag>
         </div>
       </Card>
     </div>

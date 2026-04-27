@@ -311,7 +311,7 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
               </td>
               <td :style="{ padding: '14px 12px' }"><CategoryBadge :id="p.category"/></td>
               <td :style="{ padding: '14px 12px' }">
-                <Pill :tone="statusToneFor(STATUS_META[p.status])">{{ STATUS_META[p.status].label }}</Pill>
+                <Tag :severity="statusToneFor(STATUS_META[p.status])">{{ STATUS_META[p.status].label }}</Tag>
               </td>
               <td :style="{ padding: '14px 12px', fontSize: '12.5px' }">
                 <div :style="{ display: 'flex', alignItems: 'center', gap: '8px' }">

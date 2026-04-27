@@ -54,8 +54,8 @@ const statusLabel = (s) => s === 'top' ? 'Top' : s === 'good' ? 'Saudável' : 'A
       Unidades
       <template #action>
         <div :style="{ display: 'flex', gap: '8px' }">
-          <Btn variant="ghost"><IDownload :size="14"/> Relatório</Btn>
-          <Btn variant="primary"><IPlus :size="14"/> Adicionar unidade</Btn>
+          <Button text severity="secondary"><IDownload :size="14"/> Relatório</Button>
+          <Button severity="primary"><IPlus :size="14"/> Adicionar unidade</Button>
         </div>
       </template>
     </SectionTitle>
@@ -144,7 +144,7 @@ const statusLabel = (s) => s === 'top' ? 'Top' : s === 'good' ? 'Saudável' : 'A
             {{ selectedPharmacy.city }} · {{ selectedPharmacy.district }} · Gestora {{ selectedPharmacy.manager }} · {{ selectedPharmacy.phone }}
           </div>
         </div>
-        <IconBtn @click="selected = null"><IClose :size="16"/></IconBtn>
+        <Button text severity="secondary" @click="selected = null"><IClose :size="16"/></Button>
       </div>
 
       <div :style="{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }">

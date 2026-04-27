@@ -7,14 +7,14 @@ const eur = window.eur;
 const tab = ref('queue');
 
 const queueStatus = {
-  awaiting:    { label: 'A aguardar',  tone: 'warning' },
+  awaiting:    { label: 'A aguardar',  tone: 'warn' },
   in_progress: { label: 'Em curso',     tone: 'info' },
   verified:    { label: 'Verificada',   tone: 'success' },
 };
 
 const sevMap = {
   danger:  { tone: 'danger',  label: 'Crítico'   },
-  warning: { tone: 'warning', label: 'Moderado' },
+  warning: { tone: 'warn', label: 'Moderado' },
   info:    { tone: 'info',    label: 'Leve'      },
 };
 
@@ -60,12 +60,12 @@ const tabs = [
             <td :style="{ color: 'var(--foreground-muted)' }">{{ rx.doctor }}</td>
             <td :style="{ fontSize: '12.5px' }">{{ rx.type }}</td>
             <td :style="{ textAlign: 'center', fontVariantNumeric: 'tabular-nums' }">{{ rx.items }}</td>
-            <td><Pill :tone="queueStatus[rx.status].tone" dot>{{ queueStatus[rx.status].label }}</Pill></td>
+            <td><Tag :severity="queueStatus[rx.status].tone">{{ queueStatus[rx.status].label }}</Tag></td>
             <td>
-              <Pill v-if="rx.priority === 'high'" tone="danger" dot>Urgente</Pill>
+              <Tag v-if="rx.priority === 'high'" severity="danger">Urgente</Tag>
               <span v-else :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">Normal</span>
             </td>
-            <td :style="{ textAlign: 'right' }"><Btn variant="ghost" size="sm">Abrir</Btn></td>
+            <td :style="{ textAlign: 'right' }"><Button text severity="secondary" size="small">Abrir</Button></td>
           </tr>
         </tbody>
       </table>
@@ -99,7 +99,7 @@ const tabs = [
         </thead>
         <tbody>
           <tr v-for="i in D.interactions" :key="i.id">
-            <td><Pill :tone="sevMap[i.sev].tone" dot>{{ sevMap[i.sev].label }}</Pill></td>
+            <td><Tag :severity="sevMap[i.sev].tone">{{ sevMap[i.sev].label }}</Tag></td>
             <td :style="{ fontWeight: 500 }">
               {{ i.drug1 }} <span :style="{ color: 'var(--foreground-muted)', fontWeight: 400 }">+</span> {{ i.drug2 }}
             </td>
@@ -107,8 +107,8 @@ const tabs = [
             <td :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)', maxWidth: '320px' }">{{ i.note }}</td>
             <td :style="{ fontSize: '12px', color: 'var(--foreground-muted)' }">{{ i.when }}</td>
             <td>
-              <Pill v-if="i.resolved" tone="success" dot>Resolvida</Pill>
-              <Btn v-else variant="soft" size="sm">Resolver</Btn>
+              <Tag v-if="i.resolved" severity="success">Resolvida</Tag>
+              <Button v-else outlined size="small">Resolver</Button>
             </td>
           </tr>
         </tbody>

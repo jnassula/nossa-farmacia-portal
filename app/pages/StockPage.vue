@@ -73,9 +73,9 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
         <p :style="{ color: 'var(--foreground-muted)', fontSize: '13.5px', margin: '4px 0 0' }">Gestão de inventário · todas as farmácias do grupo</p>
       </div>
       <div :style="{ display: 'flex', gap: '8px' }">
-        <Btn variant="secondary"><IUpload :size="14"/> Importar</Btn>
-        <Btn variant="secondary"><ITruck :size="14"/> Encomenda</Btn>
-        <Btn><IPlus :size="14"/> Adicionar produto</Btn>
+        <Button severity="secondary" outlined><IUpload :size="14"/> Importar</Button>
+        <Button severity="secondary" outlined><ITruck :size="14"/> Encomenda</Button>
+        <Button><IPlus :size="14"/> Adicionar produto</Button>
       </div>
     </div>
 
@@ -94,8 +94,8 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
         </div>
         <Tabs :value="filter" :tabs="tabs" @change="(id) => filter = id"/>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '8px' }">
-          <Btn variant="secondary" size="sm"><IFilter :size="13"/> Filtros · 2</Btn>
-          <Btn variant="secondary" size="sm"><IDownload :size="13"/> Exportar</Btn>
+          <Button severity="secondary" outlined size="small"><IFilter :size="13"/> Filtros · 2</Button>
+          <Button severity="secondary" outlined size="small"><IDownload :size="13"/> Exportar</Button>
         </div>
       </div>
 
@@ -103,9 +103,9 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
         :style="{ padding: '10px 14px', background: 'var(--primary-soft)', borderBottom: '1px solid var(--brand-emerald-200)', display: 'flex', alignItems: 'center', gap: '12px' }">
         <span :style="{ fontSize: '13px', color: 'var(--brand-emerald-800)', fontWeight: 500 }">{{ selected.size }} produtos selecionados</span>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '6px' }">
-          <Btn variant="secondary" size="sm"><IPackage :size="13"/> Transferir</Btn>
-          <Btn variant="secondary" size="sm"><ITruck :size="13"/> Encomendar</Btn>
-          <Btn variant="secondary" size="sm"><ITag :size="13"/> Atualizar preço</Btn>
+          <Button severity="secondary" outlined size="small"><IPackage :size="13"/> Transferir</Button>
+          <Button severity="secondary" outlined size="small"><ITruck :size="13"/> Encomendar</Button>
+          <Button severity="secondary" outlined size="small"><ITag :size="13"/> Atualizar preço</Button>
         </div>
       </div>
 
@@ -133,7 +133,7 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
                 <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ it.brand }}</div>
               </td>
               <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--foreground-muted)' }">{{ it.sku }}</td>
-              <td><Pill tone="neutral">{{ it.category }}</Pill></td>
+              <td><Tag severity="secondary">{{ it.category }}</Tag></td>
               <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }">
                 <div :style="{ fontWeight: 600 }">{{ it.stock }}</div>
                 <div :style="{ fontSize: '11px', color: 'var(--foreground-subtle)' }">min {{ it.min }}</div>
@@ -144,11 +144,11 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
               </td>
               <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eurD(it.price) }}</td>
               <td>
-                <Pill v-if="it.status === 'low'"  tone="danger"  dot>Stock baixo</Pill>
-                <Pill v-if="it.status === 'soon'" tone="warning" dot>Val. próxima</Pill>
-                <Pill v-if="it.status === 'ok'"   tone="success" dot>Normal</Pill>
+                <Tag v-if="it.status === 'low'"  severity="danger">Stock baixo</Tag>
+                <Tag v-if="it.status === 'soon'" severity="warning">Val. próxima</Tag>
+                <Tag v-if="it.status === 'ok'"   severity="success">Normal</Tag>
               </td>
-              <td><IconBtn><IMore :size="14"/></IconBtn></td>
+              <td><Button text severity="secondary"><IMore :size="14"/></Button></td>
             </tr>
           </tbody>
         </table>
@@ -157,13 +157,13 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
       <div :style="{ padding: '12px 16px', display: 'flex', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', fontSize: '12px', color: 'var(--foreground-muted)' }">
         <span>A mostrar {{ items.length }} de 14.820 produtos</span>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '6px', alignItems: 'center' }">
-          <IconBtn><IChevronLeft :size="14"/></IconBtn>
+          <Button text severity="secondary"><IChevronLeft :size="14"/></Button>
           <span :style="{ padding: '4px 10px', borderRadius: '6px', background: 'var(--primary-soft)', color: 'var(--primary)', fontWeight: 600 }">1</span>
           <span :style="{ padding: '4px 10px', cursor: 'pointer' }">2</span>
           <span :style="{ padding: '4px 10px', cursor: 'pointer' }">3</span>
           <span>…</span>
           <span :style="{ padding: '4px 10px', cursor: 'pointer' }">247</span>
-          <IconBtn><IChevronRight :size="14"/></IconBtn>
+          <Button text severity="secondary"><IChevronRight :size="14"/></Button>
         </div>
       </div>
     </Card>
@@ -173,16 +173,16 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
       :subtitle="drawerItem ? `${drawerItem.brand} · SKU ${drawerItem.sku}` : ''"
       @close="drawerItem = null">
       <template #footer>
-        <Btn variant="secondary"><IPackage :size="14"/> Transferir</Btn>
-        <Btn><ITruck :size="14"/> Encomendar</Btn>
+        <Button severity="secondary" outlined><IPackage :size="14"/> Transferir</Button>
+        <Button><ITruck :size="14"/> Encomendar</Button>
       </template>
 
       <div v-if="drawerItem" :style="{ display: 'flex', flexDirection: 'column', gap: '20px' }">
         <div :style="{ display: 'flex', gap: '10px', flexWrap: 'wrap' }">
-          <Pill v-if="drawerItem.status === 'low'"  tone="danger"  dot>Stock baixo</Pill>
-          <Pill v-if="drawerItem.status === 'soon'" tone="warning" dot>Validade próxima</Pill>
-          <Pill tone="neutral">{{ drawerItem.category }}</Pill>
-          <Pill tone="outline">PVP {{ eurD(drawerItem.price) }}</Pill>
+          <Tag v-if="drawerItem.status === 'low'"  severity="danger">Stock baixo</Tag>
+          <Tag v-if="drawerItem.status === 'soon'" severity="warning">Validade próxima</Tag>
+          <Tag severity="secondary">{{ drawerItem.category }}</Tag>
+          <Tag severity="secondary" rounded>PVP {{ eurD(drawerItem.price) }}</Tag>
         </div>
 
         <div :style="{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }">
