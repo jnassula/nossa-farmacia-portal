@@ -96,9 +96,7 @@ const pharmacyCard = {
     <div class="login-form-wrap" :style="loginRight">
       <form @submit="submit" :style="{ width: '100%', maxWidth: '380px' }">
         <div :style="{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '32px' }">
-          <div class="brand-cross" :style="{ width: '36px', height: '36px', borderRadius: '9px' }">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 2h6v7h7v6h-7v7h-6v-7H2V9h7z"/></svg>
-          </div>
+          <img src="assets/nf_icon.svg" width="36" height="36" alt="Nossa Farmácia" :style="{ flex: 'none' }"/>
           <div :style="{ lineHeight: 1.1 }">
             <div :style="{ fontSize: '16px', fontWeight: 700, letterSpacing: '-0.01em' }">
               nossa <span :style="{ color: 'var(--foreground-muted)', fontWeight: 500 }">portal</span>

@@ -34,9 +34,7 @@ import Stat from './Stat.vue';
     </div>
 
     <div :style="{ position: 'relative', zIndex: 2 }">
-      <div class="brand-cross" :style="{ width: '40px', height: '40px', borderRadius: '10px' }">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M9 2h6v7h7v6h-7v7h-6v-7H2V9h7z"/></svg>
-      </div>
+      <img src="assets/nf_icon.svg" width="40" height="40" alt="Nossa Farmácia"/>
     </div>
 
     <div :style="{ position: 'relative', zIndex: 2, maxWidth: '420px' }">

@@ -32,9 +32,7 @@ const handleNav = (id) => { emit('navigate', id); emit('mobile-close'); };
       padding: '18px 16px 14px', display: 'flex', alignItems: 'center', gap: '10px',
       height: '64px', borderBottom: '1px solid var(--border-subtle)',
     }">
-      <div class="brand-cross">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 2h6v7h7v6h-7v7h-6v-7H2V9h7z"/></svg>
-      </div>
+      <img src="assets/nf_icon.svg" width="28" height="28" alt="Nossa Farmácia" :style="{ flex: 'none' }"/>
       <div v-if="!collapsed" :style="{ display: 'flex', flexDirection: 'column', lineHeight: 1.1, flex: 1 }">
         <div :style="{ fontSize: '14px', fontWeight: 700, letterSpacing: '-0.01em' }">
           nossa <span :style="{ color: 'var(--foreground-muted)', fontWeight: 500 }">portal</span>
