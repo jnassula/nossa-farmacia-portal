@@ -1,0 +1,220 @@
+/* theme-overrides.css
+   Mapeia os design tokens do PrimeVue 4 (--p-*) para as CSS vars
+   do sistema Nossa (tokens.css). Carregar DEPOIS de tokens.css e do
+   stylesheet gerado pelo PrimeVue, para que estes overrides ganhem.
+
+   Dark mode é activado via [data-theme="dark"] (ver tokens.css). O preset
+   PrimeVue está configurado com `darkModeSelector: '[data-theme="dark"]'`,
+   por isso os componentes Prime reagem ao mesmo selector.
+
+   Densidade é controlada via [data-density="compact|comfortable|spacious"]
+   no <html>.
+   ======================================================================== */
+
+:root {
+  /* ---------- PRIMARY (escala emerald) ---------- */
+  --p-primary-50:  var(--brand-emerald-50);
+  --p-primary-100: var(--brand-emerald-100);
+  --p-primary-200: var(--brand-emerald-200);
+  --p-primary-300: var(--brand-emerald-300);
+  --p-primary-400: var(--brand-emerald-400);
+  --p-primary-500: var(--brand-emerald-500);
+  --p-primary-600: var(--brand-emerald-600);
+  --p-primary-700: var(--brand-emerald-700);
+  --p-primary-800: var(--brand-emerald-800);
+  --p-primary-900: var(--brand-emerald-900);
+  --p-primary-950: var(--brand-emerald-950);
+
+  --p-primary-color:           var(--primary);
+  --p-primary-contrast-color:  var(--primary-foreground);
+  --p-primary-hover-color:     var(--primary-hover);
+  --p-primary-active-color:    var(--primary-active);
+
+  /* ---------- SURFACE (escala neutra ink) ---------- */
+  --p-surface-0:   var(--ink-0);
+  --p-surface-50:  var(--ink-50);
+  --p-surface-100: var(--ink-100);
+  --p-surface-200: var(--ink-200);
+  --p-surface-300: var(--ink-300);
+  --p-surface-400: var(--ink-400);
+  --p-surface-500: var(--ink-500);
+  --p-surface-600: var(--ink-600);
+  --p-surface-700: var(--ink-700);
+  --p-surface-800: var(--ink-800);
+  --p-surface-900: var(--ink-900);
+  --p-surface-950: var(--ink-950);
+
+  /* ---------- CONTENT (cards, panels) ---------- */
+  --p-content-background:        var(--surface);
+  --p-content-hover-background:  var(--surface-sunken);
+  --p-content-border-color:      var(--border);
+  --p-content-color:             var(--foreground);
+  --p-content-hover-color:       var(--foreground);
+
+  /* ---------- TEXT ---------- */
+  --p-text-color:               var(--foreground);
+  --p-text-hover-color:         var(--foreground);
+  --p-text-muted-color:         var(--foreground-muted);
+  --p-text-hover-muted-color:   var(--foreground);
+
+  /* ---------- FORM FIELDS ---------- */
+  --p-form-field-background:              var(--surface);
+  --p-form-field-disabled-background:     var(--surface-sunken);
+  --p-form-field-filled-background:       var(--surface-sunken);
+  --p-form-field-filled-hover-background: var(--surface-sunken);
+  --p-form-field-color:                   var(--foreground);
+  --p-form-field-disabled-color:          var(--foreground-subtle);
+  --p-form-field-placeholder-color:       var(--foreground-subtle);
+  --p-form-field-border-color:            var(--border);
+  --p-form-field-hover-border-color:      var(--border-strong);
+  --p-form-field-focus-border-color:      var(--border-focus);
+  --p-form-field-invalid-border-color:    var(--signal-danger);
+  --p-form-field-shadow:                  none;
+  --p-form-field-padding-x:               0.75rem;
+  --p-form-field-padding-y:               0.5rem;
+  --p-form-field-border-radius:           var(--radius-md);
+
+  /* ---------- FOCUS RING ---------- */
+  --p-focus-ring-width:  4px;
+  --p-focus-ring-style:  solid;
+  --p-focus-ring-color:  var(--ring);
+  --p-focus-ring-offset: 0;
+  --p-focus-ring-shadow: 0 0 0 4px var(--ring);
+
+  /* ---------- OVERLAY (Dialog, Drawer, Popover, Menu) ---------- */
+  --p-overlay-select-background:  var(--surface);
+  --p-overlay-select-border-color: var(--border);
+  --p-overlay-select-color:        var(--foreground);
+  --p-overlay-popover-background:  var(--surface);
+  --p-overlay-popover-border-color: var(--border);
+  --p-overlay-popover-color:        var(--foreground);
+  --p-overlay-modal-background:    var(--surface);
+  --p-overlay-modal-border-color:  var(--border);
+  --p-overlay-modal-color:         var(--foreground);
+
+  /* ---------- BORDER RADIUS ---------- */
+  --p-border-radius-xs: var(--radius-xs);
+  --p-border-radius-sm: var(--radius-sm);
+  --p-border-radius-md: var(--radius-md);
+  --p-border-radius-lg: var(--radius-lg);
+  --p-border-radius-xl: var(--radius-xl);
+
+  /* ---------- LIST (Listbox, Dropdown items) ---------- */
+  --p-list-color:               var(--foreground);
+  --p-list-option-color:        var(--foreground);
+  --p-list-option-hover-color:  var(--foreground);
+  --p-list-option-selected-color:        var(--primary);
+  --p-list-option-selected-background:   var(--primary-soft);
+  --p-list-option-hover-background:      var(--surface-sunken);
+
+  /* ---------- NAVIGATION (Tabs, Menubar) ---------- */
+  --p-navigation-list-background:        var(--surface);
+  --p-navigation-list-border-color:      var(--border);
+  --p-navigation-item-color:             var(--foreground-muted);
+  --p-navigation-item-hover-color:       var(--foreground);
+  --p-navigation-item-active-color:      var(--primary);
+  --p-navigation-item-hover-background:  var(--surface-sunken);
+  --p-navigation-item-active-background: var(--primary-soft);
+
+  /* ---------- SCHEME (high-level) ---------- */
+  --p-scheme:                  light;
+  --p-mask-background:         oklch(0.160 0.005 180 / 0.45);
+  --p-mask-color:              var(--foreground-inverse);
+
+  /* ---------- ICON ---------- */
+  --p-icon-color:        var(--foreground-muted);
+  --p-icon-hover-color:  var(--foreground);
+}
+
+[data-theme="dark"] {
+  --p-scheme:           dark;
+  --p-mask-background:  oklch(0 0 0 / 0.6);
+  /* Os outros tokens ja resolvem porque referenciam --foreground/--surface/etc.
+     que sao redefinidos em [data-theme="dark"] por tokens.css. */
+}
+
+/* ========================================================================
+   DENSIDADE — overrides de paddings/heights nos componentes PrimeVue
+   conforme [data-density] no <html>.
+   ======================================================================== */
+
+[data-density="compact"] .p-button {
+  padding-block: 0.4rem;
+  padding-inline: 0.75rem;
+  min-height: 32px;
+  font-size: 13px;
+}
+[data-density="comfortable"] .p-button {
+  padding-block: 0.55rem;
+  padding-inline: 1rem;
+  min-height: 38px;
+}
+[data-density="spacious"] .p-button {
+  padding-block: 0.7rem;
+  padding-inline: 1.2rem;
+  min-height: 44px;
+  font-size: 14.5px;
+}
+
+[data-density="compact"] .p-inputtext,
+[data-density="compact"] .p-select,
+[data-density="compact"] .p-multiselect,
+[data-density="compact"] .p-datepicker-input {
+  padding-block: 0.4rem;
+  padding-inline: 0.6rem;
+  font-size: 13px;
+}
+
+[data-density="compact"] .p-tag {
+  padding-block: 0.15rem;
+  padding-inline: 0.5rem;
+  font-size: 11px;
+}
+
+[data-density="compact"] .p-datatable .p-datatable-tbody > tr > td {
+  padding-block: 8px;
+  padding-inline: 12px;
+}
+[data-density="compact"] .p-datatable .p-datatable-thead > tr > th {
+  padding-block: 7px;
+  padding-inline: 12px;
+}
+
+/* ========================================================================
+   AJUSTES FINOS — alinhar componentes PrimeVue ao "look" Nossa.
+   Mantemos o minimo possivel; a base ja vem das CSS vars acima.
+   ======================================================================== */
+
+/* Pequeno tweak no foco para usar o ring Nossa em todos os campos. */
+.p-inputtext:focus,
+.p-select:not(.p-disabled).p-focus,
+.p-multiselect:not(.p-disabled).p-focus,
+.p-textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Tag: arredondamento full por defeito (mais proximo do Pill actual). */
+.p-tag {
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+/* Card: harmonizar com o look das nossas .card (border + shadow Nossa). */
+.p-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+}
+.p-card .p-card-body { padding: 20px; }
+.p-card .p-card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.p-card .p-card-subtitle {
+  font-size: 12px;
+  color: var(--foreground-muted);
+  margin: 0 0 12px;
+}

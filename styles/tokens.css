@@ -1,0 +1,249 @@
+/* ========================================================================
+   NOSSA AI DESIGN SYSTEM — Colors & Type
+   A modern, refined redesign that builds on the Nossa Farmácia brand
+   (emerald green "cross" + wordmark) and the existing shadcn/tailwind base.
+   ======================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* ---------- BRAND / PRIMITIVE COLORS ---------- */
+  /* Emerald — derived from the Nossa Farmácia cross logo. */
+  --brand-emerald-50:  oklch(0.980 0.020 163);
+  --brand-emerald-100: oklch(0.950 0.050 163);
+  --brand-emerald-200: oklch(0.900 0.090 163);
+  --brand-emerald-300: oklch(0.830 0.130 163);
+  --brand-emerald-400: oklch(0.740 0.160 163);
+  --brand-emerald-500: oklch(0.660 0.155 163);   /* Nossa primary */
+  --brand-emerald-600: oklch(0.596 0.145 163);   /* Original "primary" */
+  --brand-emerald-700: oklch(0.520 0.130 163);
+  --brand-emerald-800: oklch(0.430 0.105 163);
+  --brand-emerald-900: oklch(0.330 0.080 163);
+  --brand-emerald-950: oklch(0.220 0.055 163);
+
+  /* Ink — warm-cool neutrals with a hint of green bias, so grays */
+  /* still feel related to the brand without being tinted. */
+  --ink-0:   oklch(1.000 0 0);
+  --ink-50:  oklch(0.985 0.002 180);
+  --ink-100: oklch(0.967 0.003 180);
+  --ink-200: oklch(0.922 0.004 180);
+  --ink-300: oklch(0.860 0.006 180);
+  --ink-400: oklch(0.710 0.008 180);
+  --ink-500: oklch(0.560 0.008 180);
+  --ink-600: oklch(0.440 0.008 180);
+  --ink-700: oklch(0.330 0.008 180);
+  --ink-800: oklch(0.230 0.006 180);
+  --ink-900: oklch(0.160 0.005 180);
+  --ink-950: oklch(0.100 0.004 180);
+
+  /* Accent — a soft mint, used sparingly for highlights / backgrounds. */
+  --accent-mint:   oklch(0.920 0.080 160);
+  --accent-spring: oklch(0.820 0.150 150);
+
+  /* Signal colors — semantic, not decorative. */
+  --signal-success: oklch(0.660 0.155 163);
+  --signal-warning: oklch(0.780 0.160 78);
+  --signal-danger:  oklch(0.620 0.230 27);
+  --signal-info:    oklch(0.640 0.140 230);
+
+  /* ---------- SEMANTIC TOKENS — LIGHT ---------- */
+  --background:            var(--ink-50);
+  --surface:               var(--ink-0);
+  --surface-raised:        var(--ink-0);
+  --surface-sunken:        var(--ink-100);
+  --surface-inverse:       var(--ink-950);
+
+  --foreground:            var(--ink-950);
+  --foreground-muted:      var(--ink-600);
+  --foreground-subtle:     var(--ink-500);
+  --foreground-on-primary: var(--ink-0);
+  --foreground-inverse:    var(--ink-0);
+
+  --primary:               var(--brand-emerald-600);
+  --primary-hover:         var(--brand-emerald-700);
+  --primary-active:        var(--brand-emerald-800);
+  --primary-soft:          var(--brand-emerald-50);
+  --primary-soft-hover:    var(--brand-emerald-100);
+  --primary-foreground:    var(--ink-0);
+
+  --border:                var(--ink-200);
+  --border-strong:         var(--ink-300);
+  --border-subtle:         var(--ink-100);
+  --border-focus:          var(--brand-emerald-500);
+
+  --ring:                  oklch(0.660 0.155 163 / 0.35);
+
+  --success:               var(--signal-success);
+  --warning:               var(--signal-warning);
+  --danger:                var(--signal-danger);
+  --info:                  var(--signal-info);
+
+  /* ---------- TYPOGRAPHY ---------- */
+  --font-sans:    'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif:   'Instrument Serif', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+  /* Display — serif, used for marketing hero moments only. */
+  --display-1-size: clamp(3rem, 6vw, 4.75rem);
+  --display-1-lh:   0.95;
+  --display-1-tr:   -0.02em;
+
+  /* Headings — sans, DM Sans. */
+  --h1-size: 3rem;         --h1-lh: 1.05; --h1-weight: 700; --h1-tr: -0.02em;
+  --h2-size: 2.25rem;      --h2-lh: 1.10; --h2-weight: 700; --h2-tr: -0.02em;
+  --h3-size: 1.5rem;       --h3-lh: 1.20; --h3-weight: 600; --h3-tr: -0.01em;
+  --h4-size: 1.125rem;     --h4-lh: 1.40; --h4-weight: 600; --h4-tr: -0.005em;
+
+  /* Body */
+  --body-lg-size: 1.125rem; --body-lg-lh: 1.55;
+  --body-md-size: 1rem;     --body-md-lh: 1.55;
+  --body-sm-size: 0.875rem; --body-sm-lh: 1.5;
+  --body-xs-size: 0.75rem;  --body-xs-lh: 1.4;
+
+  --label-size: 0.8125rem; --label-lh: 1.3; --label-weight: 500;
+  --eyebrow-size: 0.75rem; --eyebrow-lh: 1.2; --eyebrow-weight: 600; --eyebrow-tr: 0.08em;
+
+  --mono-size: 0.8125rem;  --mono-lh: 1.5;
+
+  /* ---------- SPACING / RADIUS / SHADOW ---------- */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;    /* default, matches shadcn --radius */
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+  --radius-full: 9999px;
+
+  --shadow-xs: 0 1px 2px 0 oklch(0.160 0.005 180 / 0.05);
+  --shadow-sm: 0 1px 2px 0 oklch(0.160 0.005 180 / 0.06), 0 1px 3px 0 oklch(0.160 0.005 180 / 0.08);
+  --shadow-md: 0 2px 4px -1px oklch(0.160 0.005 180 / 0.06), 0 4px 8px -2px oklch(0.160 0.005 180 / 0.08);
+  --shadow-lg: 0 8px 16px -4px oklch(0.160 0.005 180 / 0.10), 0 4px 8px -2px oklch(0.160 0.005 180 / 0.06);
+  --shadow-xl: 0 16px 32px -8px oklch(0.160 0.005 180 / 0.14), 0 8px 16px -4px oklch(0.160 0.005 180 / 0.08);
+  --shadow-glow: 0 0 0 1px oklch(0.660 0.155 163 / 0.12), 0 4px 20px -4px oklch(0.660 0.155 163 / 0.35);
+
+  /* A single "card" shadow token used across the system. */
+  --shadow-card: 0 1px 2px 0 oklch(0.160 0.005 180 / 0.05),
+                 0 4px 16px -6px oklch(0.160 0.005 180 / 0.08);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+}
+
+/* ---------- DARK THEME ---------- */
+.dark, [data-theme="dark"] {
+  --background:            var(--ink-950);
+  --surface:               var(--ink-900);
+  --surface-raised:        oklch(0.200 0.006 180);
+  --surface-sunken:        oklch(0.130 0.004 180);
+  --surface-inverse:       var(--ink-50);
+
+  --foreground:            var(--ink-50);
+  --foreground-muted:      var(--ink-400);
+  --foreground-subtle:     var(--ink-500);
+  --foreground-on-primary: var(--ink-950);
+  --foreground-inverse:    var(--ink-950);
+
+  --primary:               var(--brand-emerald-400);
+  --primary-hover:         var(--brand-emerald-300);
+  --primary-active:        var(--brand-emerald-500);
+  --primary-soft:          oklch(0.300 0.080 163 / 0.25);
+  --primary-soft-hover:    oklch(0.300 0.080 163 / 0.40);
+  --primary-foreground:    oklch(0.120 0.040 163);
+
+  --border:                oklch(0.280 0.006 180);
+  --border-strong:         oklch(0.360 0.006 180);
+  --border-subtle:         oklch(0.220 0.005 180);
+  --border-focus:          var(--brand-emerald-400);
+
+  --ring:                  oklch(0.740 0.160 163 / 0.35);
+
+  --shadow-xs: 0 1px 2px 0 oklch(0 0 0 / 0.40);
+  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.45), 0 1px 3px 0 oklch(0 0 0 / 0.35);
+  --shadow-md: 0 2px 4px -1px oklch(0 0 0 / 0.50), 0 4px 8px -2px oklch(0 0 0 / 0.40);
+  --shadow-lg: 0 8px 16px -4px oklch(0 0 0 / 0.55), 0 4px 8px -2px oklch(0 0 0 / 0.40);
+  --shadow-xl: 0 16px 32px -8px oklch(0 0 0 / 0.60), 0 8px 16px -4px oklch(0 0 0 / 0.40);
+  --shadow-card: 0 1px 2px 0 oklch(0 0 0 / 0.40),
+                 0 4px 16px -6px oklch(0 0 0 / 0.50);
+  --shadow-glow: 0 0 0 1px oklch(0.740 0.160 163 / 0.25), 0 4px 24px -4px oklch(0.740 0.160 163 / 0.45);
+}
+
+/* ========================================================================
+   SEMANTIC TYPE CLASSES
+   ======================================================================== */
+body, .type-body {
+  font-family: var(--font-sans);
+  font-size: var(--body-md-size);
+  line-height: var(--body-md-lh);
+  color: var(--foreground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.type-display {
+  font-family: var(--font-serif);
+  font-size: var(--display-1-size);
+  line-height: var(--display-1-lh);
+  letter-spacing: var(--display-1-tr);
+  font-weight: 400;
+}
+.type-display-italic { font-style: italic; }
+
+.type-h1 { font-family: var(--font-sans); font-size: var(--h1-size); line-height: var(--h1-lh); letter-spacing: var(--h1-tr); font-weight: var(--h1-weight); }
+.type-h2 { font-family: var(--font-sans); font-size: var(--h2-size); line-height: var(--h2-lh); letter-spacing: var(--h2-tr); font-weight: var(--h2-weight); }
+.type-h3 { font-family: var(--font-sans); font-size: var(--h3-size); line-height: var(--h3-lh); letter-spacing: var(--h3-tr); font-weight: var(--h3-weight); }
+.type-h4 { font-family: var(--font-sans); font-size: var(--h4-size); line-height: var(--h4-lh); letter-spacing: var(--h4-tr); font-weight: var(--h4-weight); }
+
+.type-body-lg { font-size: var(--body-lg-size); line-height: var(--body-lg-lh); }
+.type-body-md { font-size: var(--body-md-size); line-height: var(--body-md-lh); }
+.type-body-sm { font-size: var(--body-sm-size); line-height: var(--body-sm-lh); }
+.type-body-xs { font-size: var(--body-xs-size); line-height: var(--body-xs-lh); }
+
+.type-label   { font-size: var(--label-size); line-height: var(--label-lh); font-weight: var(--label-weight); }
+.type-eyebrow { font-size: var(--eyebrow-size); line-height: var(--eyebrow-lh); font-weight: var(--eyebrow-weight); letter-spacing: var(--eyebrow-tr); text-transform: uppercase; }
+.type-mono    { font-family: var(--font-mono); font-size: var(--mono-size); line-height: var(--mono-lh); }
+
+.text-muted    { color: var(--foreground-muted); }
+.text-subtle   { color: var(--foreground-subtle); }
+.text-primary  { color: var(--primary); }
+
+/* ========================================================================
+   BRAND GRADIENTS — used sparingly.
+   ======================================================================== */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, var(--brand-emerald-500), var(--brand-emerald-700));
+}
+.bg-brand-gradient-soft {
+  background: linear-gradient(180deg, var(--brand-emerald-50), transparent);
+}
+.bg-night {
+  background:
+    radial-gradient(80% 60% at 20% 0%, oklch(0.300 0.080 163 / 0.35), transparent 60%),
+    radial-gradient(60% 50% at 90% 100%, oklch(0.260 0.070 163 / 0.30), transparent 60%),
+    var(--ink-950);
+}
+
+.text-brand-gradient {
+  background: linear-gradient(135deg, var(--brand-emerald-500), var(--brand-emerald-700));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

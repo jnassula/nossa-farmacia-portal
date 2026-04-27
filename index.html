@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nossa Farmácia · Portal de gestão</title>
+
+  <!-- 1. Tokens Nossa (cores OKLCH, dark mode via [data-theme="dark"]) -->
+  <link rel="stylesheet" href="styles/tokens.css"/>
+
+  <!-- 2. Component classes Nossa (.card, .btn, .pill, .kpi, ...) -->
+  <link rel="stylesheet" href="styles/portal.css"/>
+
+  <!-- 3. PrimeIcons (fallback para componentes que esperam classes pi pi-*) -->
+  <link rel="stylesheet" href="https://unpkg.com/primeicons@7.0.0/primeicons.css"/>
+
+  <!-- 4. Vue 3 (UMD, com template compiler — necessario para vue3-sfc-loader) -->
+  <script src="https://unpkg.com/vue@3.5.13/dist/vue.global.prod.js"></script>
+
+  <!-- 5. vue3-sfc-loader: carrega .vue em runtime -->
+  <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader@0.9.5/dist/vue3-sfc-loader.js"></script>
+
+  <!-- 6. PrimeVue 4 — bundle UMD (mantido carregado para o caso de fases
+        futuras o usarem; o portal em si nao usa componentes PrimeVue) -->
+  <script src="https://unpkg.com/primevue@4/umd/primevue.min.js"></script>
+
+  <!-- 7. Tema Aura (UMD) — fonte do preset; window.PrimeUIX.Themes.Aura -->
+  <script src="https://unpkg.com/@primeuix/themes@2/umd/aura.js"></script>
+
+  <!-- 8. Preset customizado Nossa que envolve o Aura (window.NossaPreset) -->
+  <script src="app/theme/nossa-preset.js"></script>
+
+  <!-- 9. Theme overrides — mapeia --p-* (PrimeVue) para var(--*) (Nossa). -->
+  <link rel="stylesheet" href="styles/theme-overrides.css"/>
+</head>
+<body>
+  <!-- Default state — usado pelo TweaksPanel via /*EDITMODE-BEGIN*/.../*EDITMODE-END*/.
+       window.TWEAK_DEFAULTS e lido pelo App.vue para inicializar useTweaks(). -->
+  <script>
+    window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "sidebarCollapsed": false,
+      "density": "compact",
+      "theme": "light",
+      "showAlerts": true,
+      "accentHue": 231
+    }/*EDITMODE-END*/;
+  </script>
+
+  <div id="root"></div>
+
+  <!-- ───────────────────────────────────────────────────────────────────────
+       Helpers globais (regular scripts, dependem de window.Vue ja carregado).
+       Anexam icons / primitives / charts / tweaks / nav / data a window.
+       Sao registados como componentes Vue globais por main.js antes do mount.
+       ─────────────────────────────────────────────────────────────────────── -->
+  <script src="app/data.js"></script>
+  <script src="app/nav.js"></script>
+  <script src="app/icons.js"></script>
+  <script src="app/primitives.js"></script>
+  <script src="app/charts.js"></script>
+  <script src="app/tweaks.js"></script>
+  <script src="app/composables/usePortal.js"></script>
+  <script src="app/composables/newsroom.js"></script>
+
+  <!-- Bootstrap: cria createApp, regista todos os globais e monta App.vue -->
+  <script src="app/main.js"></script>
+</body>
+</html>

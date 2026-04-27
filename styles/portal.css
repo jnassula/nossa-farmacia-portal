@@ -1,0 +1,419 @@
+/* portal.css — additional styles for Nossa Farmácia Portal */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; height: 100%; }
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-300); border: 2px solid transparent; background-clip: padding-box; }
+
+/* Field focus */
+.ui-field:focus-within {
+  border-color: var(--border-focus) !important;
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Subtle row hover */
+.row-hover:hover { background: var(--surface-sunken); }
+
+/* Drawer animation */
+@keyframes slideInRight { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes pulseDot { 0%,100% { box-shadow: 0 0 0 0 currentColor; opacity: 1; } 50% { box-shadow: 0 0 0 6px transparent; opacity: 0.6; } }
+@keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+.fade-in { animation: fadeIn 240ms var(--ease-out); }
+.scale-in { animation: scaleIn 200ms var(--ease-out); }
+.slide-in-right { animation: slideInRight 280ms var(--ease-out); }
+
+.pulse-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 999px;
+  background: currentColor; animation: pulseDot 2s ease-in-out infinite;
+}
+
+/* Sidebar nav item */
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 10px;
+  color: var(--foreground-muted);
+  font-size: 13.5px; font-weight: 500;
+  cursor: pointer; transition: all 160ms var(--ease-out);
+  position: relative;
+  border: 1px solid transparent;
+}
+.nav-item:hover { background: var(--surface-sunken); color: var(--foreground); }
+.nav-item.active {
+  background: var(--primary-soft); color: var(--brand-emerald-800);
+  border-color: var(--brand-emerald-200);
+}
+.nav-item.active::before {
+  content: ''; position: absolute; left: -16px; top: 8px; bottom: 8px;
+  width: 3px; border-radius: 0 3px 3px 0; background: var(--primary);
+}
+.nav-section-label {
+  font-size: 10.5px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--foreground-subtle);
+  padding: 14px 12px 6px;
+}
+
+/* Cards & tables */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: var(--shadow-card);
+}
+.card-header {
+  padding: 18px 20px 14px; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.card-title { font-size: 14.5px; font-weight: 600; }
+.card-subtitle { font-size: 12px; color: var(--foreground-muted); margin-top: 2px; }
+.card-body { padding: 20px; }
+
+table.tbl { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+table.tbl th { text-align: left; font-weight: 500; font-size: 11.5px; color: var(--foreground-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; border-bottom: 1px solid var(--border); background: var(--ink-50); position: sticky; top: 0; }
+table.tbl td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+table.tbl tr:hover td { background: var(--surface-sunken); }
+table.tbl tr:last-child td { border-bottom: 0; }
+
+/* KPI card */
+.kpi {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 18px 20px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: all 200ms var(--ease-out);
+}
+.kpi:hover { border-color: var(--border-strong); box-shadow: var(--shadow-card); }
+.kpi-label { font-size: 12px; color: var(--foreground-muted); font-weight: 500; }
+.kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+.kpi-trend { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; }
+
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+@media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Generic data table — alias to .tbl semantics */
+table.data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+table.data-table th { text-align: left; font-weight: 500; font-size: 11.5px; color: var(--foreground-muted); text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 14px; border-bottom: 1px solid var(--border-subtle); background: var(--surface-sunken); position: sticky; top: 0; }
+table.data-table td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+table.data-table tr:hover td { background: var(--surface-sunken); }
+table.data-table tr:last-child td { border-bottom: 0; }
+[data-density="compact"] table.data-table td { padding: 8px 12px; }
+[data-density="compact"] table.data-table th { padding: 7px 12px; }
+
+/* Segmented control */
+.seg { display: inline-flex; background: var(--ink-50); border: 1px solid var(--border); border-radius: 10px; padding: 3px; gap: 2px; }
+.seg button { background: transparent; border: 0; padding: 6px 14px; font: inherit; font-size: 12.5px; font-weight: 500; color: var(--foreground-muted); border-radius: 7px; cursor: pointer; transition: all 160ms var(--ease-out); }
+.seg button:hover { color: var(--foreground); }
+.seg button.active { background: var(--surface); color: var(--foreground); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+
+/* Status pill */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 500; line-height: 1.4;
+  border: 1px solid transparent;
+}
+.pill.success { background: oklch(0.95 0.05 163); color: var(--brand-emerald-700); }
+.pill.warning { background: oklch(0.96 0.06 78);  color: oklch(0.50 0.16 78); }
+.pill.danger  { background: oklch(0.96 0.06 27);  color: oklch(0.50 0.23 27); }
+.pill.info    { background: oklch(0.95 0.05 230); color: oklch(0.45 0.16 230); }
+.pill.neutral { background: var(--surface-sunken); color: var(--foreground-muted); }
+.pill.outline { background: transparent; border-color: var(--border-strong); color: var(--foreground-muted); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 38px; padding: 0 16px; border-radius: 10px; font-size: 13.5px; font-weight: 500;
+  border: 1px solid transparent; cursor: pointer; transition: all 160ms var(--ease-out);
+  white-space: nowrap;
+}
+.btn.primary   { background: var(--primary); color: var(--primary-foreground); }
+.btn.primary:hover { background: var(--primary-hover); }
+.btn.secondary { background: var(--surface); color: var(--foreground); border-color: var(--border); }
+.btn.secondary:hover { background: var(--surface-sunken); border-color: var(--border-strong); }
+.btn.soft      { background: var(--primary-soft); color: var(--primary); }
+.btn.soft:hover { background: var(--primary-soft-hover); }
+.btn.ghost     { background: transparent; color: var(--foreground-muted); }
+.btn.ghost:hover { background: var(--surface-sunken); color: var(--foreground); }
+.btn.sm { height: 32px; padding: 0 12px; font-size: 12.5px; border-radius: 8px; }
+.btn.lg { height: 44px; padding: 0 20px; font-size: 14px; border-radius: 12px; }
+
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 10px; border: 1px solid transparent;
+  background: transparent; color: var(--foreground-muted); cursor: pointer;
+  display: grid; place-items: center; transition: all 160ms;
+}
+.icon-btn:hover { background: var(--surface-sunken); color: var(--foreground); }
+.icon-btn.bordered { border-color: var(--border); background: var(--surface); }
+.icon-btn.bordered:hover { background: var(--surface-sunken); border-color: var(--border-strong); }
+
+/* Inputs */
+.input {
+  height: 40px; padding: 0 12px; border: 1px solid var(--border);
+  background: var(--surface); border-radius: 10px; font-size: 13.5px;
+  color: var(--foreground); outline: none; transition: all 160ms;
+  width: 100%;
+}
+.input:focus { border-color: var(--border-focus); box-shadow: 0 0 0 4px var(--ring); }
+.input::placeholder { color: var(--foreground-subtle); }
+
+/* Tabs */
+.tabs { display: inline-flex; gap: 4px; padding: 4px; background: var(--ink-100); border-radius: 10px; }
+.tab {
+  padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  cursor: pointer; color: var(--foreground-muted); transition: all 160ms;
+}
+.tab.active { background: var(--surface); color: var(--foreground); box-shadow: var(--shadow-xs); }
+.tab:hover:not(.active) { color: var(--foreground); }
+
+/* Backdrop & dialog */
+.backdrop {
+  position: fixed; inset: 0; background: oklch(0.16 0.005 180 / 0.4);
+  backdrop-filter: blur(4px); z-index: 50;
+  display: grid; place-items: center;
+  animation: fadeIn 200ms var(--ease-out);
+}
+
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: 480px;
+  background: var(--surface); border-left: 1px solid var(--border);
+  z-index: 60; box-shadow: var(--shadow-xl);
+  animation: slideInRight 280ms var(--ease-out);
+  display: flex; flex-direction: column;
+}
+
+/* Map dot */
+.map-dot {
+  position: absolute; width: 14px; height: 14px; border-radius: 999px;
+  border: 2px solid #fff; transform: translate(-50%, -50%);
+  cursor: pointer; transition: transform 160ms;
+  box-shadow: 0 1px 3px oklch(0 0 0 / 0.3);
+}
+.map-dot:hover { transform: translate(-50%, -50%) scale(1.4); z-index: 5; }
+.map-dot.top { background: var(--brand-emerald-500); }
+.map-dot.good { background: var(--brand-emerald-300); }
+.map-dot.watch { background: var(--signal-warning); }
+
+/* Skeleton */
+.skel {
+  background: linear-gradient(90deg, var(--ink-100) 0%, var(--ink-50) 50%, var(--ink-100) 100%);
+  background-size: 200% 100%; animation: shimmer 1.6s linear infinite;
+  border-radius: 8px;
+}
+
+/* Density */
+[data-density="compact"] .card-body { padding: 16px; }
+[data-density="compact"] table.tbl td { padding: 8px 12px; }
+[data-density="compact"] table.tbl th { padding: 7px 12px; }
+[data-density="compact"] .kpi { padding: 14px 16px; }
+[data-density="compact"] .kpi-value { font-size: 24px; }
+
+/* Brand mark — pharmacy cross */
+.brand-cross {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--primary); color: #fff;
+  display: grid; place-items: center; flex: none;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+   Responsive: tablet & mobile
+   ────────────────────────────────────────────────────────────────── */
+
+/* Tables: wrap in .table-scroll for horizontal overflow on small screens */
+.table-scroll { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll table { min-width: 720px; }
+
+/* Hide desktop sidebar, show as drawer */
+.sidebar-backdrop {
+  display: none;
+  position: fixed; inset: 0; background: oklch(0.16 0.005 180 / 0.5);
+  backdrop-filter: blur(3px); z-index: 70;
+  animation: fadeIn 200ms var(--ease-out);
+}
+
+@media (max-width: 1100px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+  .page-pad { padding: 20px !important; }
+  /* Topbar gets tight; collapse non-essential bits early */
+  header.app-topbar { padding: 0 16px !important; gap: 10px !important; }
+  header.app-topbar .tb-breadcrumbs { display: none !important; }
+  header.app-topbar .tb-search-full { max-width: 280px !important; }
+  header.app-topbar .tb-user-text { display: none !important; }
+  header.app-topbar .tb-user-pill { padding: 2px !important; border: 0 !important; background: transparent !important; }
+
+  /* Hero post: stack image above text */
+  .hero-post { grid-template-columns: 1fr !important; }
+  /* Newsroom layout: drop side rail */
+  .newsroom-layout { grid-template-columns: 1fr !important; }
+  .newsroom-side { display: none !important; }
+}
+
+/* Tablet: collapse common 2-column layouts */
+@media (max-width: 960px) {
+  /* Most pages use various 2-col grids — force to 1 col */
+  .page-pad > div[style*="gridTemplateColumns"],
+  .page-pad > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+  /* But explicit auto-fill/auto-fit grids (cards) keep their natural behaviour */
+  .page-pad > div[style*="auto-fill"],
+  .page-pad > div[style*="auto-fit"] {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important;
+  }
+  /* Repeat(4,1fr) KPI rows → 2 cols */
+  .page-pad > div[style*="repeat(4, 1fr)"],
+  .page-pad > div[style*="repeat(4,1fr)"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  /* Settings nav stacks */
+  .page-pad > div[style*="220px 1fr"] { grid-template-columns: 1fr !important; }
+  /* Post editor split */
+  .post-editor-grid { grid-template-columns: 1fr !important; }
+  /* Inline 1fr 1fr inside cards stay */
+}
+
+@media (max-width: 768px) {
+  /* Sidebar becomes off-canvas drawer */
+  aside.app-sidebar {
+    position: fixed !important;
+    top: 0; left: 0; bottom: 0; height: 100dvh !important;
+    width: 280px !important; max-width: 84vw;
+    z-index: 80;
+    transform: translateX(-100%);
+    transition: transform 280ms var(--ease-out) !important;
+    box-shadow: var(--shadow-xl);
+  }
+  aside.app-sidebar.open { transform: translateX(0); }
+  .sidebar-backdrop.open { display: block; }
+
+  /* Compact topbar */
+  header.app-topbar {
+    padding: 0 14px !important;
+    gap: 8px !important;
+    height: 60px !important;
+  }
+  header.app-topbar .tb-breadcrumbs { display: none !important; }
+  header.app-topbar .tb-title-text { font-size: 15px !important; }
+  header.app-topbar .tb-search-full { display: none !important; }
+  header.app-topbar .tb-search-icon { display: grid !important; }
+  header.app-topbar .tb-user-text { display: none !important; }
+  header.app-topbar .tb-user-pill { padding: 2px !important; border: 0 !important; background: transparent !important; }
+
+  /* Page padding */
+  .page-pad { padding: 16px !important; }
+
+  /* KPI grid: 1 col on small phones, 2 on tablets handled above */
+  .kpi-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .kpi { padding: 14px 16px !important; }
+  .kpi-value { font-size: 22px !important; }
+
+  /* Cards */
+  .card-header { padding: 14px 16px 10px !important; flex-wrap: wrap; }
+  .card-body { padding: 14px !important; }
+
+  /* Headings shrink */
+  h1.page-title { font-size: 22px !important; }
+
+  /* Notification panel: full width */
+  .notif-panel {
+    top: 60px !important;
+    right: 8px !important; left: 8px !important;
+    width: auto !important;
+    max-height: calc(100dvh - 80px) !important;
+  }
+
+  /* Drawer (stock detail etc.) full screen */
+  .drawer { width: 100% !important; max-width: 100% !important; border-left: 0 !important; }
+
+  /* Tweaks panel: bottom sheet feel */
+  .tweaks-panel {
+    width: calc(100vw - 24px) !important;
+    max-width: 360px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+  }
+
+  /* Login: stack the split */
+  .login-split { grid-template-columns: 1fr !important; }
+  .login-art { display: none !important; }
+  .login-form-wrap { padding: 24px !important; min-height: 100dvh !important; }
+
+  /* Tabs/seg can wrap */
+  .tabs, .seg { flex-wrap: wrap; }
+
+  /* Tables scroll horizontally on mobile */
+  .card { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+  table.tbl, table.data-table { min-width: 640px; }
+
+  /* Hide first column whitespace columns */
+  table.tbl, table.data-table { font-size: 12.5px; }
+  table.tbl td, table.tbl th, table.data-table td, table.data-table th { padding: 8px 10px !important; }
+
+  /* Force ANY descendant grid w/ 2+ inline columns into single-col stack on phones */
+  .page-pad div[style*="gridTemplateColumns"]:not([style*="auto-fill"]):not([style*="auto-fit"]) {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .page-pad div[style*="grid-template-columns"]:not([style*="auto-fill"]):not([style*="auto-fit"]) {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  .page-pad div[style*="auto-fill"],
+  .page-pad div[style*="auto-fit"] {
+    grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr)) !important;
+  }
+
+  /* Prevent flex/grid children from overflowing their container on mobile */
+  .page-pad, .page-pad *:not(table):not(thead):not(tbody):not(tr):not(td):not(th) { min-width: 0 !important; }
+  .page-pad img, .page-pad svg:not(.icon-fixed) { max-width: 100%; }
+  /* Hard cap content width to prevent any rogue overflow */
+  .page-pad > * { max-width: 100% !important; }
+  main { overflow-x: hidden !important; }
+  body { overflow-x: hidden !important; }
+
+  /* Force flex rows to wrap on mobile — covers page header rows
+     even when wrapped in a flex-column container */
+  .page-pad div[style*="display: flex"]:not([style*="flex-direction: column"]):not([style*="flex-direction:column"]),
+  .page-pad div[style*="display:flex"]:not([style*="flex-direction: column"]):not([style*="flex-direction:column"]) {
+    flex-wrap: wrap !important;
+  }
+  /* Page header style rows: stack title above buttons */
+  .page-pad div[style*="justify-content: space-between"][style*="display: flex"],
+  .page-pad div[style*="justify-content:space-between"][style*="display: flex"],
+  .page-pad div[style*="justify-content: space-between"][style*="display:flex"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  /* But preserve nowrap inside specific intentional rows */
+  .page-pad .seg, .page-pad .tabs, .page-pad .kpi { flex-wrap: nowrap !important; flex-direction: row !important; }
+  /* Tabs and segmented controls scroll horizontally if too wide */
+  .page-pad .tabs, .page-pad .seg { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .page-pad .tabs::-webkit-scrollbar, .page-pad .seg::-webkit-scrollbar { display: none; }
+  .page-pad .kpi > div { flex-direction: row !important; flex-wrap: nowrap !important; }
+  /* Action button rows */
+  .page-pad .btn { white-space: nowrap; }
+
+  /* Hero post stacks vertically (already from 1100px, keep) */
+  .hero-post { grid-template-columns: 1fr !important; }
+
+  /* Sidebar nav doesn't get caught by the above */
+  aside.app-sidebar div[style*="gridTemplateColumns"] { grid-template-columns: initial !important; }
+}
+
+@media (max-width: 480px) {
+  header.app-topbar .tb-notifs-only-icon { display: grid !important; }
+  .page-pad { padding: 14px !important; }
+  h1.page-title { font-size: 20px !important; }
+  .kpi-value { font-size: 20px !important; }
+  .btn { height: 36px; padding: 0 14px; font-size: 13px; }
+  .btn.lg { height: 42px; }
+}

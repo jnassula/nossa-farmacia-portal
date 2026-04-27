@@ -1,0 +1,13 @@
+# Claude Code local config
+.claude/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets (ainda que nao haja, melhor prevenir)
+.env
+.env.*
