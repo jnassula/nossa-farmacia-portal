@@ -140,13 +140,29 @@
     ]);
   };
 
-  // ---- ProgressBar ----------------------------------------------------------
+  // ---- ProgressBar (wrapper que renderiza PrimeVue ProgressBar internamente)
+  // API Nossa (value, max, color, height) traduzida para PrimeVue ProgressBar:
+  // - value normalizado para 0-100 (PrimeVue assume max=100)
+  // - color injectada na <div> da fill via :pt (PassThrough) sobre `value`.
+  // Fallback: div standalone se PrimeVue nao estiver presente.
   const ProgressBar = (_p, { attrs }) => {
     const value = Number(attrs.value || 0);
     const max = Number(attrs.max != null ? attrs.max : 100);
     const color = attrs.color || 'var(--primary)';
     const height = attrs.height != null ? Number(attrs.height) : 6;
     const pct = Math.min(100, Math.max(0, (value / max) * 100));
+    const PrimePB = window.PrimeVue && (window.PrimeVue.ProgressBar?.default || window.PrimeVue.ProgressBar);
+    if (PrimePB) {
+      return h(PrimePB, {
+        value: pct,
+        showValue: false,
+        style: { height: height + 'px' },
+        pt: {
+          root: { style: { background: 'var(--ink-100)', borderRadius: '999px', overflow: 'hidden' } },
+          value: { style: { background: color, borderRadius: '999px' } },
+        },
+      });
+    }
     return h('div', {
       style: { height: height + 'px', background: 'var(--ink-100)', borderRadius: '999px', overflow: 'hidden' },
     }, h('div', {

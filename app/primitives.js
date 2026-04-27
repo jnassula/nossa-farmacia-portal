@@ -53,7 +53,10 @@
     }, slots.default && slots.default());
   };
 
-  // ---- Avatar ---------------------------------------------------------------
+  // ---- Avatar (wrapper que renderiza PrimeVue Avatar internamente) ---------
+  // Mantemos a API Nossa (name, size, bg) — calculamos iniciais e cor com hash
+  // do nome, e delegamos para <Avatar> PrimeVue. Se PrimeVue nao estiver
+  // disponivel, fallback para o div standalone.
   const Avatar = (_p, { attrs }) => {
     const name = attrs.name || '?';
     const size = attrs.size != null ? Number(attrs.size) : 32;
@@ -63,6 +66,18 @@
     ];
     const color = attrs.bg || palette[(name.charCodeAt(0) || 0) % palette.length];
     const initials = String(name).split(' ').filter(Boolean).slice(0, 2).map(s => s[0].toUpperCase()).join('');
+    const PrimeAvatar = window.PrimeVue && (window.PrimeVue.Avatar?.default || window.PrimeVue.Avatar);
+    if (PrimeAvatar) {
+      return h(PrimeAvatar, {
+        label: initials,
+        shape: 'circle',
+        style: {
+          width: size + 'px', height: size + 'px',
+          background: color, color: '#fff',
+          fontSize: Math.round(size * 0.38) + 'px', fontWeight: 600, flex: 'none',
+        },
+      });
+    }
     return h('div', {
       style: {
         width: size + 'px', height: size + 'px', borderRadius: '999px',
