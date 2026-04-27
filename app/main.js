@@ -119,8 +119,9 @@
     'SectionTitle', 'Trend', 'Empty',
     'KPI', 'Stat', 'Kpi', 'Legend', 'MiniStat',
     // Em conflito com PrimeVue — vai sendo removido por fase:
-    // (migrados: Btn->Button, Pill->Tag, IconBtn->Button text, Tabs->SelectButton, Drawer->Drawer)
-    'Card', 'Avatar', 'Toast', 'ProgressBar',
+    // (migrados: Btn->Button, Pill->Tag, IconBtn->Button text, Tabs->SelectButton,
+    //  Drawer->Drawer, Toast->ToastService+<Toast>)
+    'Card', 'Avatar', 'ProgressBar',
   ];
   for (const name of PRIMITIVES_REMAINING) {
     if (window[name]) app.component(name, window[name]);

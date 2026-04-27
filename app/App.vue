@@ -6,7 +6,7 @@
 // notifs, listener Cmd+K, deteccao mobile, theme/density via data-attrs no
 // documentElement, e TweaksPanel para integracao com o IDE host.
 
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, watch, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue';
 const { providePortal } = window;
 import Sidebar from './components/Sidebar.vue';
 import Topbar from './components/Topbar.vue';
@@ -35,8 +35,11 @@ const collapsed = ref(!!tweaks.sidebarCollapsed);
 const mobileSidebarOpen = ref(false);
 const paletteOpen = ref(false);
 const notifsOpen = ref(false);
-const toast = ref(null);
 const isMobile = ref(false);
+
+// PrimeVue ToastService — registado em main.js como app plugin.
+// Acedido via globalProperties.$toast (PrimeVue UMD nao expoe useToast directo).
+const $toast = getCurrentInstance()?.appContext.config.globalProperties.$toast;
 
 // window.__sfc (exposto por main.js) carrega um SFC em runtime via
 // vue3-sfc-loader e devolve um async component pronto. Usamos lazy-loading
@@ -94,12 +97,12 @@ watch(() => tweaks.density, (v) => { document.documentElement.dataset.density = 
 const onLogin = (_pharmacyId) => {
   authed.value = true;
   page.value = 'welcome';
-  toast.value = {
-    tone: 'success',
-    title: 'Bem-vinda, Inês',
-    desc: 'Sessão iniciada · vista consolidada do grupo',
-  };
-  setTimeout(() => { toast.value = null; }, 3500);
+  $toast?.add({
+    severity: 'success',
+    summary: 'Bem-vinda, Inês',
+    detail: 'Sessão iniciada · vista consolidada do grupo',
+    life: 3500,
+  });
 };
 
 const handleOpenPost = (p) => { openPost.value = p; page.value = 'post-detail'; window.scrollTo(0, 0); };
@@ -160,9 +163,7 @@ const logout = () => { authed.value = false; page.value = 'dashboard'; };
 
     <NotificationsPanel :open="notifsOpen" @close="notifsOpen = false"/>
 
-    <Toast v-if="toast"
-      :tone="toast.tone" :title="toast.title" :desc="toast.desc"
-      @close="toast = null"/>
+    <Toast position="bottom-right"/>
 
     <TweaksPanel title="Tweaks · Portal">
       <TweakSection label="Aparência">
