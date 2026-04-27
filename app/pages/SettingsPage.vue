@@ -22,16 +22,8 @@ const navBtnStyle = (active) => ({
   cursor: 'pointer', textAlign: 'left', font: 'inherit',
 });
 
-const inpStyle = {
-  width: '100%', maxWidth: '380px', height: '36px', padding: '0 12px',
-  borderRadius: '8px', border: '1px solid var(--border)',
-  background: 'var(--surface)', fontSize: '13px', outline: 0, font: 'inherit',
-};
-const selectStyle = {
-  width: '100%', maxWidth: '200px', height: '36px', padding: '0 12px',
-  borderRadius: '8px', border: '1px solid var(--border)',
-  background: 'var(--surface)', fontSize: '13px', font: 'inherit',
-};
+// inpStyle removido — InputText herda estilos do tema PrimeVue
+// selectStyle removido — <Select> PrimeVue herda estilos do tema
 
 const fieldRowStyle = {
   display: 'grid', gridTemplateColumns: '180px 1fr', gap: '20px',
@@ -90,30 +82,27 @@ const integrations = [
                 <div :style="{ fontSize: '13px', fontWeight: 500 }">Nome</div>
                 <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Nome completo profissional</div>
               </div>
-              <div><input :style="inpStyle" value="Inês Carvalho"/></div>
+              <div><InputText :model-value="'Inês Carvalho'" :style="{ maxWidth: '380px', width: '100%' }"/></div>
             </div>
             <div :style="fieldRowStyle">
               <div><div :style="{ fontSize: '13px', fontWeight: 500 }">Cargo</div></div>
-              <div><input :style="inpStyle" value="Gestora · Grupo"/></div>
+              <div><InputText :model-value="'Gestora · Grupo'" :style="{ maxWidth: '380px', width: '100%' }"/></div>
             </div>
             <div :style="fieldRowStyle">
               <div>
                 <div :style="{ fontSize: '13px', fontWeight: 500 }">Email</div>
                 <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Para notificações e recuperação</div>
               </div>
-              <div><input :style="inpStyle" value="ines.carvalho@nossafarmacia.pt"/></div>
+              <div><InputText :model-value="'ines.carvalho@nossafarmacia.pt'" :style="{ maxWidth: '380px', width: '100%' }"/></div>
             </div>
             <div :style="fieldRowStyle">
               <div><div :style="{ fontSize: '13px', fontWeight: 500 }">Telemóvel</div></div>
-              <div><input :style="inpStyle" value="+351 91 423 11 02"/></div>
+              <div><InputText :model-value="'+351 91 423 11 02'" :style="{ maxWidth: '380px', width: '100%' }"/></div>
             </div>
             <div :style="fieldRowStyle">
               <div><div :style="{ fontSize: '13px', fontWeight: 500 }">Idioma</div></div>
               <div>
-                <select :style="selectStyle">
-                  <option>Português (PT)</option>
-                  <option>English</option>
-                </select>
+                <Select :model-value="'Português (PT)'" :options="['Português (PT)', 'English']" :style="{ maxWidth: '200px', width: '100%' }"/>
               </div>
             </div>
           </div>
@@ -130,11 +119,11 @@ const integrations = [
             <div :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Dados fiscais e de identificação do grupo.</div>
           </div>
           <div :style="{ padding: '22px' }">
-            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Razão social</div></div><div><input :style="inpStyle" value="Nossa Farmácia · Grupo, SA"/></div></div>
-            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">NIPC</div></div><div><input :style="inpStyle" value="509 821 410"/></div></div>
-            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Sede</div></div><div><input :style="inpStyle" value="Rua Augusta 142, 1100-053 Lisboa"/></div></div>
-            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">INFARMED · alvará</div></div><div><input :style="inpStyle" value="ALV-2018-0421"/></div></div>
-            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Encarregado de proteção de dados</div></div><div><input :style="inpStyle" value="dpo@nossafarmacia.pt"/></div></div>
+            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Razão social</div></div><div><InputText :model-value="'Nossa Farmácia · Grupo, SA'" :style="{ maxWidth: '380px', width: '100%' }"/></div></div>
+            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">NIPC</div></div><div><InputText :model-value="'509 821 410'" :style="{ maxWidth: '380px', width: '100%' }"/></div></div>
+            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Sede</div></div><div><InputText :model-value="'Rua Augusta 142, 1100-053 Lisboa'" :style="{ maxWidth: '380px', width: '100%' }"/></div></div>
+            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">INFARMED · alvará</div></div><div><InputText :model-value="'ALV-2018-0421'" :style="{ maxWidth: '380px', width: '100%' }"/></div></div>
+            <div :style="fieldRowStyle"><div><div :style="{ fontSize: '13px', fontWeight: 500 }">Encarregado de proteção de dados</div></div><div><InputText :model-value="'dpo@nossafarmacia.pt'" :style="{ maxWidth: '380px', width: '100%' }"/></div></div>
           </div>
           <div :style="{ padding: '12px 22px', borderTop: '1px solid var(--border-subtle)', background: 'var(--surface-sunken)', display: 'flex', justifyContent: 'flex-end', gap: '8px' }">
             <Button severity="primary">Guardar</Button>
@@ -215,9 +204,7 @@ const integrations = [
                   <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '4px' }">Inactividade.</div>
                 </div>
                 <div>
-                  <select :style="{ ...selectStyle, width: '200px' }">
-                    <option>30 minutos</option><option>1 hora</option><option>4 horas</option><option>8 horas</option>
-                  </select>
+                  <Select :model-value="'30 minutos'" :options="['30 minutos', '1 hora', '4 horas', '8 horas']" :style="{ width: '200px' }"/>
                 </div>
               </div>
             </div>

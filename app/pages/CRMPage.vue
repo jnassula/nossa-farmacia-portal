@@ -74,11 +74,10 @@ const customerActivity = [
         <div :style="{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }">
           <div :style="{ fontSize: '14px', fontWeight: 600 }">Clientes</div>
           <div :style="{ display: 'flex', gap: '8px', alignItems: 'center' }">
-            <div :style="{ position: 'relative' }">
-              <ISearch :size="13" :style="{ position: 'absolute', left: '10px', top: '9px', color: 'var(--foreground-muted)' }"/>
-              <input v-model="q" placeholder="Procurar nome, NIF…"
-                :style="{ width: '220px', height: '32px', padding: '0 12px 0 32px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--surface)', fontSize: '12.5px', outline: 0, font: 'inherit' }"/>
-            </div>
+            <IconField iconPosition="left">
+              <InputIcon><ISearch :size="13"/></InputIcon>
+              <InputText v-model="q" placeholder="Procurar nome, NIF…" size="small" :style="{ width: '220px' }"/>
+            </IconField>
           </div>
         </div>
 

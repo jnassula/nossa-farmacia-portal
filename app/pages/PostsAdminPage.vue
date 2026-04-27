@@ -269,8 +269,7 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
           borderRadius: '8px', marginLeft: 'auto', minWidth: '240px',
         }">
           <ISearch :size="14" :style="{ color: 'var(--foreground-muted)' }"/>
-          <input v-model="search" placeholder="Procurar posts…"
-            :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit', fontSize: '13px' }"/>
+          <InputText v-model="search" placeholder="Procurar posts…" :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', boxShadow: 'none', fontSize: '13px' }"/>
         </div>
       </div>
 
@@ -364,11 +363,11 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
         <Card :style="{ padding: '24px' }">
           <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }">
             <label :style="{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--foreground-muted)' }">Título</label>
-            <input v-model="title" class="input" placeholder="Título do post…" :style="{ fontSize: '18px', fontWeight: 600 }"/>
+            <InputText v-model="title" placeholder="Título do post…" :style="{ width: '100%', fontSize: '18px', fontWeight: 600 }"/>
           </div>
           <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }">
             <label :style="{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--foreground-muted)' }">Subtítulo / Excerpt</label>
-            <textarea v-model="excerpt" class="input" placeholder="Uma frase curta a descrever o conteúdo…" rows="2" :style="{ resize: 'vertical' }"/>
+            <Textarea v-model="excerpt" placeholder="Uma frase curta a descrever o conteúdo…" rows="2" :style="{ width: '100%', resize: 'vertical' }"/>
           </div>
         </Card>
 
@@ -384,8 +383,7 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
             <button class="icon-btn" :title="'Link'"><ILink :size="14"/></button>
             <button class="icon-btn" :title="'Imagem'"><IImage :size="14"/></button>
           </div>
-          <textarea v-model="body" class="input" rows="12"
-            :style="{ fontFamily: 'var(--font-serif, \'Instrument Serif\', Georgia, serif)', fontSize: '15px', lineHeight: 1.6, resize: 'vertical' }"/>
+          <Textarea v-model="body" rows="12" :style="{ width: '100%', fontFamily: 'var(--font-serif, &quot;Instrument Serif&quot;, Georgia, serif)', fontSize: '15px', lineHeight: 1.6, resize: 'vertical' }"/>
           <div :style="{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: 'var(--foreground-subtle)', marginTop: '6px' }">
             <span>{{ wordCount }} palavras · ~{{ readMin }} min</span>
             <span>Suporte para Markdown leve · **negrito**, listas, citações</span>
@@ -416,24 +414,23 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
 
           <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }">
             <label :style="{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--foreground-muted)' }">Categoria</label>
-            <select v-model="category" class="input">
-              <option v-for="c in data.postCategories.filter(x => x.id !== 'all')" :key="c.id" :value="c.id">{{ c.label }}</option>
-            </select>
+            <Select v-model="category" :options="data.postCategories.filter(x => x.id !== 'all')" optionLabel="label" optionValue="id" :style="{ width: '100%' }"/>
           </div>
 
           <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }">
             <label :style="{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--foreground-muted)' }">Tags (separadas por vírgula)</label>
-            <input v-model="tags" class="input" placeholder="campanha, primavera, marketing"/>
+            <InputText v-model="tags" placeholder="campanha, primavera, marketing" :style="{ width: '100%' }"/>
           </div>
 
           <div :style="{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '12px' }">
             <label :style="{ fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', color: 'var(--foreground-muted)' }">Visibilidade</label>
-            <select v-model="visibility" class="input">
-              <option value="all">Todas as farmácias</option>
-              <option value="lisboa">Apenas região · Lisboa</option>
-              <option value="porto">Apenas região · Porto</option>
-              <option value="custom">Selecionar farmácias…</option>
-            </select>
+            <Select v-model="visibility" optionLabel="label" optionValue="value" :style="{ width: '100%' }"
+              :options="[
+                { value: 'all',    label: 'Todas as farmácias' },
+                { value: 'lisboa', label: 'Apenas região · Lisboa' },
+                { value: 'porto',  label: 'Apenas região · Porto' },
+                { value: 'custom', label: 'Selecionar farmácias…' },
+              ]"/>
           </div>
 
           <div :style="{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid var(--border-subtle)' }">
@@ -442,40 +439,19 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
                 <div :style="{ fontSize: '13px', fontWeight: 500 }">Fixar no topo</div>
                 <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '1px' }">Aparece sempre no início do feed</div>
               </div>
-              <button type="button" @click="pinned = !pinned"
-                :style="{
-                  width: '36px', height: '20px', borderRadius: '999px', border: 0, cursor: 'pointer',
-                  background: pinned ? 'var(--primary)' : 'var(--border-strong)',
-                  position: 'relative', transition: 'background 160ms', flex: 'none',
-                }">
-                <span :style="{ position: 'absolute', top: '2px', left: pinned ? '18px' : '2px', width: '16px', height: '16px', borderRadius: '999px', background: '#fff', transition: 'left 160ms' }"/>
-              </button>
+              <ToggleSwitch v-model="pinned"/>
             </label>
             <label :style="{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px 0', cursor: 'pointer' }">
               <div :style="{ flex: 1, minWidth: 0 }">
                 <div :style="{ fontSize: '13px', fontWeight: 500 }">Permitir comentários</div>
               </div>
-              <button type="button" @click="allowComments = !allowComments"
-                :style="{
-                  width: '36px', height: '20px', borderRadius: '999px', border: 0, cursor: 'pointer',
-                  background: allowComments ? 'var(--primary)' : 'var(--border-strong)',
-                  position: 'relative', transition: 'background 160ms', flex: 'none',
-                }">
-                <span :style="{ position: 'absolute', top: '2px', left: allowComments ? '18px' : '2px', width: '16px', height: '16px', borderRadius: '999px', background: '#fff', transition: 'left 160ms' }"/>
-              </button>
+              <ToggleSwitch v-model="allowComments"/>
             </label>
             <label :style="{ display: 'flex', alignItems: 'center', gap: '10px', padding: '6px 0', cursor: 'pointer' }">
               <div :style="{ flex: 1, minWidth: 0 }">
                 <div :style="{ fontSize: '13px', fontWeight: 500 }">Permitir reações</div>
               </div>
-              <button type="button" @click="allowReactions = !allowReactions"
-                :style="{
-                  width: '36px', height: '20px', borderRadius: '999px', border: 0, cursor: 'pointer',
-                  background: allowReactions ? 'var(--primary)' : 'var(--border-strong)',
-                  position: 'relative', transition: 'background 160ms', flex: 'none',
-                }">
-                <span :style="{ position: 'absolute', top: '2px', left: allowReactions ? '18px' : '2px', width: '16px', height: '16px', borderRadius: '999px', background: '#fff', transition: 'left 160ms' }"/>
-              </button>
+              <ToggleSwitch v-model="allowReactions"/>
             </label>
           </div>
 
@@ -485,7 +461,7 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
               <button @click="schedule = 'now'" :class="schedule === 'now' ? 'btn primary sm' : 'btn ghost sm'" :style="{ flex: 1 }">Agora</button>
               <button @click="schedule = 'later'" :class="schedule === 'later' ? 'btn primary sm' : 'btn ghost sm'" :style="{ flex: 1 }">Agendar</button>
             </div>
-            <input v-if="schedule === 'later'" v-model="scheduleDate" type="datetime-local" class="input" :style="{ marginTop: '8px' }"/>
+            <DatePicker v-if="schedule === 'later'" v-model="scheduleDate" showTime hourFormat="24" :style="{ width: '100%', marginTop: '8px' }"/>
           </div>
         </Card>
 

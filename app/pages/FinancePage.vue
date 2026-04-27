@@ -135,12 +135,10 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
       <div class="card-header" :style="{ flexWrap: 'wrap' }">
         <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         <div :style="{ display: 'flex', gap: '8px', marginLeft: 'auto' }">
-          <div :style="{ position: 'relative' }">
-            <ISearch :size="14" :style="{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--foreground-subtle)' }"/>
-            <input class="input"
-              :style="{ height: '36px', paddingLeft: '32px', width: '240px', fontSize: '13px' }"
-              :placeholder="tab === 'receivables' ? 'Procurar entidade…' : 'Procurar fornecedor…'"/>
-          </div>
+          <IconField iconPosition="left">
+            <InputIcon><ISearch :size="14"/></InputIcon>
+            <InputText :placeholder="tab === 'receivables' ? 'Procurar entidade…' : 'Procurar fornecedor…'" :style="{ width: '240px' }"/>
+          </IconField>
           <Button severity="secondary" outlined size="small"><IFilter :size="13"/> Estado</Button>
           <Button severity="secondary" outlined size="small"><ICalendar :size="13"/> Período</Button>
           <Button severity="secondary" outlined size="small"><IDownload :size="13"/> Exportar</Button>

@@ -88,10 +88,10 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
 
     <Card>
       <div :style="{ padding: '14px', display: 'flex', gap: '10px', alignItems: 'center', borderBottom: '1px solid var(--border-subtle)', flexWrap: 'wrap' }">
-        <div :style="{ position: 'relative', flex: '1 1 280px', maxWidth: '380px' }">
-          <ISearch :size="15" :style="{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--foreground-subtle)' }"/>
-          <input v-model="search" placeholder="Procurar por nome, SKU, marca…" class="input" :style="{ paddingLeft: '36px' }"/>
-        </div>
+        <IconField iconPosition="left" :style="{ flex: '1 1 280px', maxWidth: '380px' }">
+          <InputIcon><ISearch :size="15"/></InputIcon>
+          <InputText v-model="search" placeholder="Procurar por nome, SKU, marca…" :style="{ width: '100%' }"/>
+        </IconField>
         <SelectButton v-model="filter" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '8px' }">
           <Button severity="secondary" outlined size="small"><IFilter :size="13"/> Filtros · 2</Button>

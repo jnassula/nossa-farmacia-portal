@@ -14,8 +14,27 @@
   const { h, Fragment } = Vue;
   const I = window.I || {};
 
-  // ---- Card -----------------------------------------------------------------
-  const Card = (_p, { attrs, slots }) => h('div', { ...attrs, class: 'card' }, slots.default && slots.default());
+  // ---- Card (wrapper que renderiza PrimeVue Card internamente) -------------
+  // Mantemos a API Nossa: default slot recebe `.card-header`/`.card-body`
+  // ja existentes em todas as paginas. Internamente delegamos para
+  // <Card> PrimeVue passando o conteudo no slot #content e neutralizando o
+  // padding default do PrimeVue (que era duplicado pelo nosso .card-body).
+  // A class "card" e preservada no root para o CSS Nossa (border, shadow,
+  // background) continuar a aplicar-se.
+  const Card = (_p, { attrs, slots }) => {
+    const PrimeCard = window.PrimeVue && (window.PrimeVue.Card?.default || window.PrimeVue.Card);
+    if (PrimeCard) {
+      return h(PrimeCard, {
+        ...attrs,
+        class: ['card', attrs.class].filter(Boolean).join(' '),
+        pt: {
+          body:    { style: { padding: 0, gap: 0 } },
+          content: { style: { padding: 0 } },
+        },
+      }, { content: () => (slots.default ? slots.default() : null) });
+    }
+    return h('div', { ...attrs, class: 'card' }, slots.default && slots.default());
+  };
 
   // ---- Pill -----------------------------------------------------------------
   const Pill = (_p, { attrs, slots }) => {
