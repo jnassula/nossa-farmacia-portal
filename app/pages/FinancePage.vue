@@ -30,25 +30,13 @@ const margins = computed(() => D.pharmacies.slice(0, 6).map((p, i) => {
   };
 }));
 
-// Cash flow chart
-const months = ['Mai','Jun','Jul','Ago','Set','Out','Nov','Dez','Jan','Fev','Mar','Abr'];
-const inn  = [180,210,224,198,240,258,272,310,260,278,294,312];
-const out  = [142,168,180,162,188,202,212,238,208,218,230,246];
-const cfW = 720, cfH = 220;
-const cfP = { l: 48, r: 16, t: 14, b: 30 };
-const cfw = cfW - cfP.l - cfP.r, cfh = cfH - cfP.t - cfP.b;
-const cfMax = 350;
-const cfBw = cfw / months.length * 0.36;
-const cfGap = cfw / months.length * 0.28;
-const cfTicks = [0, 0.25, 0.5, 0.75, 1].map((p) => ({
-  p, y: cfP.t + p * cfh, value: Math.round(cfMax - p * cfMax),
-}));
-const cfBars = months.map((m, i) => {
-  const x0 = cfP.l + i * (cfBw * 2 + cfGap) + cfGap / 2;
-  const inH = (inn[i] / cfMax) * cfh;
-  const outH = (out[i] / cfMax) * cfh;
-  return { m, x0, inH, outH, inY: cfP.t + cfh - inH, outY: cfP.t + cfh - outH };
-});
+// Cash flow chart — datasets para <GroupedBarChart>
+const cfMonths = ['Mai','Jun','Jul','Ago','Set','Out','Nov','Dez','Jan','Fev','Mar','Abr'];
+const cfDatasets = [
+  { label: 'Entradas', color: 'var(--primary)',         data: [180,210,224,198,240,258,272,310,260,278,294,312] },
+  { label: 'Saídas',    color: 'oklch(0.78 0.16 78)',   data: [142,168,180,162,188,202,212,238,208,218,230,246] },
+];
+const cfFormatY = (v) => v + 'k';
 
 const counterpartyIcon = (type) =>
   type === 'Fornecedor' ? 'ITruck'
@@ -91,18 +79,7 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
           <SelectButton :model-value="'grouped'" :options="cfTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
         <div class="card-body">
-          <svg :viewBox="`0 0 ${cfW} ${cfH}`" width="100%" :style="{ display: 'block' }">
-            <g v-for="(t, i) in cfTicks" :key="i">
-              <line :x1="cfP.l" :x2="cfW - cfP.r" :y1="t.y" :y2="t.y"
-                stroke="var(--border-subtle)" :stroke-dasharray="i ? '2 4' : undefined"/>
-              <text :x="cfP.l - 8" :y="t.y + 4" text-anchor="end" font-size="10.5" fill="var(--foreground-subtle)">{{ t.value }}k</text>
-            </g>
-            <g v-for="(b, i) in cfBars" :key="i">
-              <rect :x="b.x0" :y="b.inY" :width="cfBw" :height="b.inH" rx="3" fill="var(--primary)"/>
-              <rect :x="b.x0 + cfBw + 2" :y="b.outY" :width="cfBw" :height="b.outH" rx="3" fill="oklch(0.78 0.16 78)"/>
-              <text :x="b.x0 + cfBw + 1" :y="cfH - 10" text-anchor="middle" font-size="10.5" fill="var(--foreground-muted)">{{ b.m }}</text>
-            </g>
-          </svg>
+          <GroupedBarChart :labels="cfMonths" :datasets="cfDatasets" :height="220" :formatY="cfFormatY"/>
           <div :style="{ display: 'flex', gap: '24px', marginTop: '14px', paddingTop: '14px', borderTop: '1px solid var(--border-subtle)' }">
             <Legend color="var(--primary)" label="Entradas" :value="eur(2840000)"/>
             <Legend color="oklch(0.78 0.16 78)" label="Saídas" :value="eur(2120000)"/>

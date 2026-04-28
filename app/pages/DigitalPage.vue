@@ -34,28 +34,17 @@ const orderStatusMap = {
   cancelled:  { tone: 'danger',  label: 'Cancelada' },
 };
 
-// Stacked chart pre-computado
-const days = 14;
-const stackW = 720, stackH = 220, stackP = { l: 32, r: 16, t: 14, b: 26 };
-const stackw = stackW - stackP.l - stackP.r, stackh = stackH - stackP.t - stackP.b;
-const stackMax = 80;
-const stackBw = stackw / days * 0.7;
-const stackGap = stackw / days * 0.3;
-// Determinismo (sem Math.random na render): usa indice
-const stackData = Array.from({ length: days }, (_, d) =>
-  D.channels.map((_, i) => 8 + Math.round(Math.sin((d + i * 2) * 0.5) * 4) + i * 4 + ((d + i) % 5))
-);
-const stackBars = stackData.map((day, di) => {
-  const x = stackP.l + di * (stackBw + stackGap);
-  let yAcc = stackP.t + stackh;
-  const segs = day.map((v, ci) => {
-    const bh = (v / stackMax) * stackh;
-    yAcc -= bh;
-    return { y: yAcc, h: bh, color: D.channels[ci].color };
-  });
-  return { x, di, segs };
-});
-const stackTicks = [0, 0.5, 1].map((p, i) => ({ p, y: stackP.t + p * stackh, dashed: i > 0 }));
+// Stacked chart — datasets para <StackedBarChart>
+const stackDays = 14;
+const stackLabels = Array.from({ length: stackDays }, (_, d) => String(13 + d));
+// Para cada canal, gera uma serie deterministica de N dias
+const stackDatasets = D.channels.map((c, i) => ({
+  label: c.name,
+  color: c.color,
+  data: Array.from({ length: stackDays }, (_, d) =>
+    8 + Math.round(Math.sin((d + i * 2) * 0.5) * 4) + i * 4 + ((d + i) % 5)
+  ),
+}));
 
 // Donut
 const donutData = computed(() => D.channels.map(c => ({ v: c.revenue, color: c.color })));
@@ -121,16 +110,7 @@ const upBars = Array.from({ length: 40 }, (_, i) => ({
             optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
         <div class="card-body">
-          <svg :viewBox="`0 0 ${stackW} ${stackH}`" width="100%" :style="{ display: 'block' }">
-            <line v-for="(t, i) in stackTicks" :key="i"
-              :x1="stackP.l" :x2="stackW - stackP.r" :y1="t.y" :y2="t.y"
-              stroke="var(--border-subtle)" :stroke-dasharray="t.dashed ? '2 4' : undefined"/>
-            <g v-for="bar in stackBars" :key="bar.di">
-              <rect v-for="(seg, ci) in bar.segs" :key="ci"
-                :x="bar.x" :y="seg.y" :width="stackBw" :height="seg.h" :fill="seg.color"/>
-              <text :x="bar.x + stackBw / 2" :y="stackH - 8" text-anchor="middle" font-size="9.5" fill="var(--foreground-subtle)">{{ bar.di + 13 }}</text>
-            </g>
-          </svg>
+          <StackedBarChart :labels="stackLabels" :datasets="stackDatasets" :height="220" :showY="false"/>
           <div :style="{ display: 'flex', gap: '18px', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border-subtle)', flexWrap: 'wrap' }">
             <Legend v-for="c in D.channels" :key="c.id" :color="c.color" :label="c.name" :value="fmt(c.orders)"/>
           </div>

@@ -128,7 +128,10 @@
   }
 
   // -- Registo global de charts ---------------------------------------------
-  const CHARTS = ['Sparkline', 'LineChart', 'BarChart', 'Donut', 'ProgressBar'];
+  const CHARTS = [
+    'Sparkline', 'LineChart', 'BarChart', 'Donut', 'ProgressBar',
+    'GroupedBarChart', 'StackedBarChart',
+  ];
   for (const name of CHARTS) {
     if (window[name]) app.component(name, window[name]);
   }

@@ -27,7 +27,12 @@
   <!-- 7. Tema Aura (UMD) — fonte do preset; window.PrimeUIX.Themes.Aura -->
   <script src="https://unpkg.com/@primeuix/themes@2/umd/aura.js"></script>
 
-  <!-- 7b. Chart.js — necessario pelo <Chart> do PrimeVue -->
+  <!-- 7b. Chart.js (UMD) — usado directamente pelos wrappers em charts.js.
+       Nota: o <Chart> oficial do PrimeVue 4 usa `import('chart.js/auto')`
+       em runtime, mas como o PrimeVue e carregado cross-origin (unpkg) o
+       importmap nao se propaga para esse contexto. Em vez disso, os
+       nossos componentes (Sparkline/Line/Bar/Donut) instanciam directamente
+       `new window.Chart(canvas, config)` — funcionalmente equivalente. -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
 
   <!-- 8. Preset customizado Nossa que envolve o Aura (window.NossaPreset) -->
