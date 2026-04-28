@@ -32,7 +32,7 @@ const tabs = computed(() => [
 
 const phaName = (id) => (D.pharmacies.find(p => p.id === id)?.name || '—').replace('Farmácia Nossa ', '');
 
-const segmentTone = (segment) => segment === 'Cartão Ouro' ? 'warn' : segment === 'Cartão Sénior' ? 'info' : 'neutral';
+const segmentTone = (segment) => segment === 'Cartão Ouro' ? 'warn' : segment === 'Cartão Sénior' ? 'info' : 'secondary';
 const segmentColor = (id) => id === 'gold' ? 'oklch(0.780 0.160 78)'
                             : id === 'senior' ? 'oklch(0.640 0.140 230)'
                             : id === 'card' ? 'var(--primary)'
@@ -83,34 +83,35 @@ const customerActivity = [
 
         <SelectButton v-model="tab" :options="tabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
 
-        <table class="data-table" :style="{ marginTop: '12px' }">
-          <thead>
-            <tr>
-              <th>Cliente</th><th>Segmento</th><th>Farmácia</th>
-              <th :style="{ textAlign: 'right' }">Visitas</th>
-              <th :style="{ textAlign: 'right' }">Gasto 12M</th>
-              <th>Última visita</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="c in filtered" :key="c.id" @click="selected = c" :style="{ cursor: 'pointer' }">
-              <td>
-                <div :style="{ display: 'flex', gap: '10px', alignItems: 'center' }">
-                  <Avatar :name="c.name" :size="28" :bg="c.avatar"/>
-                  <div>
-                    <div :style="{ fontWeight: 500 }">{{ c.name }}</div>
-                    <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">NIF {{ c.nif }} · {{ c.age }} anos</div>
-                  </div>
+        <DataTable :value="filtered" :rowHover="true" stripedRows
+          :pt="{ root: { style: { marginTop: '12px' } }, bodyRow: { style: { cursor: 'pointer' } } }"
+          @row-click="(e) => selected = e.data">
+          <Column header="Cliente">
+            <template #body="{ data: c }">
+              <div :style="{ display: 'flex', gap: '10px', alignItems: 'center' }">
+                <Avatar :name="c.name" :size="28" :bg="c.avatar"/>
+                <div>
+                  <div :style="{ fontWeight: 500 }">{{ c.name }}</div>
+                  <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">NIF {{ c.nif }} · {{ c.age }} anos</div>
                 </div>
-              </td>
-              <td><Tag :severity="segmentTone(c.segment)">{{ c.segment }}</Tag></td>
-              <td :style="{ fontSize: '12.5px' }">{{ phaName(c.pharmacy) }}</td>
-              <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }">{{ c.visits }}</td>
-              <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 }">{{ eur(c.spend) }}</td>
-              <td :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)' }">{{ c.lastVisit }}</td>
-            </tr>
-          </tbody>
-        </table>
+              </div>
+            </template>
+          </Column>
+          <Column header="Segmento">
+            <template #body="{ data: c }"><Tag :severity="segmentTone(c.segment)">{{ c.segment }}</Tag></template>
+          </Column>
+          <Column header="Farmácia" :pt="{ bodyCell: { style: { fontSize: '12.5px' } } }">
+            <template #body="{ data: c }">{{ phaName(c.pharmacy) }}</template>
+          </Column>
+          <Column header="Visitas" field="visits"
+            :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums' } } }"/>
+          <Column header="Gasto 12M"
+            :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 } } }">
+            <template #body="{ data: c }">{{ eur(c.spend) }}</template>
+          </Column>
+          <Column header="Última visita" field="lastVisit"
+            :pt="{ bodyCell: { style: { fontSize: '12.5px', color: 'var(--foreground-muted)' } } }"/>
+        </DataTable>
       </Card>
 
       <div :style="{ display: 'flex', flexDirection: 'column', gap: '16px' }">
@@ -186,7 +187,7 @@ const customerActivity = [
         <div v-if="selected.conditions.length > 0">
           <div :style="{ fontSize: '12px', fontWeight: 600, color: 'var(--foreground-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }">Condições</div>
           <div :style="{ display: 'flex', gap: '6px', flexWrap: 'wrap' }">
-            <Tag v-for="x in selected.conditions" :key="x" severity="neutral">{{ x }}</Tag>
+            <Tag v-for="x in selected.conditions" :key="x" severity="secondary">{{ x }}</Tag>
           </div>
         </div>
 

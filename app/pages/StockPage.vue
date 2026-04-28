@@ -6,7 +6,7 @@ const { fmt, eur, eurD } = window;
 
 const search = ref('');
 const filter = ref('all');
-const selected = ref(new Set());
+const selectedRows = ref([]); // PrimeVue DataTable v-model:selection (array de objetos)
 const drawerItem = ref(null);
 
 const items = computed(() => D.stockItems.filter(i => {
@@ -23,17 +23,6 @@ const tabs = computed(() => [
   { id: 'soon', label: 'Validade próxima', count: D.stockItems.filter(i => i.status === 'soon').length },
   { id: 'ok',   label: 'Normal',           count: D.stockItems.filter(i => i.status === 'ok').length },
 ]);
-
-const toggle = (sku) => {
-  const ns = new Set(selected.value);
-  if (ns.has(sku)) ns.delete(sku); else ns.add(sku);
-  selected.value = ns;
-};
-
-const allChecked = computed(() => selected.value.size === items.value.length && items.value.length > 0);
-const onAllToggle = (e) => {
-  selected.value = e.target.checked ? new Set(items.value.map(i => i.sku)) : new Set();
-};
 
 const today = new Date('2026-04-26');
 const daysToExpiry = (iso) => {
@@ -99,9 +88,9 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
         </div>
       </div>
 
-      <div v-if="selected.size > 0"
+      <div v-if="selectedRows.length > 0"
         :style="{ padding: '10px 14px', background: 'var(--primary-soft)', borderBottom: '1px solid var(--brand-emerald-200)', display: 'flex', alignItems: 'center', gap: '12px' }">
-        <span :style="{ fontSize: '13px', color: 'var(--brand-emerald-800)', fontWeight: 500 }">{{ selected.size }} produtos selecionados</span>
+        <span :style="{ fontSize: '13px', color: 'var(--brand-emerald-800)', fontWeight: 500 }">{{ selectedRows.length }} produtos selecionados</span>
         <div :style="{ marginLeft: 'auto', display: 'flex', gap: '6px' }">
           <Button severity="secondary" outlined size="small"><IPackage :size="13"/> Transferir</Button>
           <Button severity="secondary" outlined size="small"><ITruck :size="13"/> Encomendar</Button>
@@ -109,50 +98,51 @@ const moveColor = (d) => d < 0 ? 'oklch(0.50 0.23 27)' : d > 0 ? 'var(--brand-em
         </div>
       </div>
 
-      <div :style="{ overflowX: 'auto' }">
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th :style="{ width: '36px' }">
-                <input type="checkbox" :style="{ accentColor: 'var(--primary)' }" :checked="allChecked" @change="onAllToggle"/>
-              </th>
-              <th>Produto</th><th>SKU</th><th>Categoria</th>
-              <th :style="{ textAlign: 'right' }">Stock</th>
-              <th>Validade</th>
-              <th :style="{ textAlign: 'right' }">PVP</th>
-              <th>Estado</th><th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="it in items" :key="it.sku" @click="drawerItem = it" :style="{ cursor: 'pointer' }">
-              <td @click.stop>
-                <input type="checkbox" :style="{ accentColor: 'var(--primary)' }" :checked="selected.has(it.sku)" @change="toggle(it.sku)"/>
-              </td>
-              <td>
-                <div :style="{ fontWeight: 500 }">{{ it.name }}</div>
-                <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ it.brand }}</div>
-              </td>
-              <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--foreground-muted)' }">{{ it.sku }}</td>
-              <td><Tag severity="secondary">{{ it.category }}</Tag></td>
-              <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }">
-                <div :style="{ fontWeight: 600 }">{{ it.stock }}</div>
-                <div :style="{ fontSize: '11px', color: 'var(--foreground-subtle)' }">min {{ it.min }}</div>
-              </td>
-              <td :style="{ fontSize: '12px', color: daysToExpiry(it.expiry).days < 60 ? 'oklch(0.50 0.16 78)' : 'var(--foreground-muted)' }">
-                {{ daysToExpiry(it.expiry).date }}<br/>
-                <span :style="{ fontSize: '10.5px' }">{{ daysToExpiry(it.expiry).days > 0 ? daysToExpiry(it.expiry).days + ' dias' : 'expirado' }}</span>
-              </td>
-              <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eurD(it.price) }}</td>
-              <td>
-                <Tag v-if="it.status === 'low'"  severity="danger">Stock baixo</Tag>
-                <Tag v-if="it.status === 'soon'" severity="warn">Val. próxima</Tag>
-                <Tag v-if="it.status === 'ok'"   severity="success">Normal</Tag>
-              </td>
-              <td><Button text severity="secondary"><IMore :size="14"/></Button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <DataTable :value="items" v-model:selection="selectedRows" dataKey="sku"
+        selectionMode="multiple" :rowHover="true" stripedRows
+        @row-click="(e) => drawerItem = e.data">
+        <Column selectionMode="multiple" :pt="{ headerCell: { style: { width: '36px' } }, bodyCell: { style: { width: '36px' } } }"/>
+        <Column header="Produto">
+          <template #body="{ data: it }">
+            <div :style="{ fontWeight: 500 }">{{ it.name }}</div>
+            <div :style="{ fontSize: '11.5px', color: 'var(--foreground-muted)' }">{{ it.brand }}</div>
+          </template>
+        </Column>
+        <Column header="SKU" field="sku"
+          :pt="{ bodyCell: { style: { fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--foreground-muted)' } } }"/>
+        <Column header="Categoria">
+          <template #body="{ data: it }"><Tag severity="secondary">{{ it.category }}</Tag></template>
+        </Column>
+        <Column header="Stock"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums' } } }">
+          <template #body="{ data: it }">
+            <div :style="{ fontWeight: 600 }">{{ it.stock }}</div>
+            <div :style="{ fontSize: '11px', color: 'var(--foreground-subtle)' }">min {{ it.min }}</div>
+          </template>
+        </Column>
+        <Column header="Validade">
+          <template #body="{ data: it }">
+            <div :style="{ fontSize: '12px', color: daysToExpiry(it.expiry).days < 60 ? 'oklch(0.50 0.16 78)' : 'var(--foreground-muted)' }">
+              {{ daysToExpiry(it.expiry).date }}<br/>
+              <span :style="{ fontSize: '10.5px' }">{{ daysToExpiry(it.expiry).days > 0 ? daysToExpiry(it.expiry).days + ' dias' : 'expirado' }}</span>
+            </div>
+          </template>
+        </Column>
+        <Column header="PVP"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' } } }">
+          <template #body="{ data: it }">{{ eurD(it.price) }}</template>
+        </Column>
+        <Column header="Estado">
+          <template #body="{ data: it }">
+            <Tag v-if="it.status === 'low'"  severity="danger">Stock baixo</Tag>
+            <Tag v-if="it.status === 'soon'" severity="warn">Val. próxima</Tag>
+            <Tag v-if="it.status === 'ok'"   severity="success">Normal</Tag>
+          </template>
+        </Column>
+        <Column>
+          <template #body><Button text severity="secondary"><IMore :size="14"/></Button></template>
+        </Column>
+      </DataTable>
 
       <div :style="{ padding: '12px 16px', display: 'flex', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', fontSize: '12px', color: 'var(--foreground-muted)' }">
         <span>A mostrar {{ items.length }} de 14.820 produtos</span>

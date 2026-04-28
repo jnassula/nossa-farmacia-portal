@@ -81,7 +81,7 @@ const shiftTone = (sh) => {
           </div>
         </div>
         <div :style="{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '12px' }">
-          <Tag v-for="s in t.skills" :key="s" severity="neutral">{{ s }}</Tag>
+          <Tag v-for="s in t.skills" :key="s" severity="secondary">{{ s }}</Tag>
         </div>
       </Card>
     </div>

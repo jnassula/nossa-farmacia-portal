@@ -169,32 +169,37 @@ const upBars = Array.from({ length: 40 }, (_, i) => ({
           <SelectButton v-model="filter" :options="orderTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
       </div>
-      <div :style="{ overflowX: 'auto' }">
-        <table class="tbl">
-          <thead>
-            <tr><th>ID</th><th>Canal</th><th>Cliente</th><th :style="{ textAlign: 'center' }">Itens</th><th :style="{ textAlign: 'right' }">Valor</th><th>ETA</th><th>Estado</th><th></th></tr>
-          </thead>
-          <tbody>
-            <tr v-for="o in orders" :key="o.id">
-              <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '12px' }">{{ o.id }}</td>
-              <td>
-                <div :style="{ display: 'flex', alignItems: 'center', gap: '8px' }">
-                  <div :style="{ width: '20px', height: '20px', borderRadius: '6px', background: channelColor(o.channel), color: '#fff', display: 'grid', placeItems: 'center', flex: 'none' }">
-                    <component :is="channelIcon(channelKey(o.channel))" :size="11"/>
-                  </div>
-                  <span>{{ o.channel }}</span>
-                </div>
-              </td>
-              <td>{{ o.client }}</td>
-              <td :style="{ textAlign: 'center' }">{{ o.items }}</td>
-              <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eurD(o.value) }}</td>
-              <td :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)' }">{{ o.eta }}</td>
-              <td><Tag :severity="orderStatusMap[o.status].tone">{{ orderStatusMap[o.status].label }}</Tag></td>
-              <td><Button text severity="secondary"><IMore :size="14"/></Button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <DataTable :value="orders" :rowHover="true" stripedRows>
+        <Column header="ID" field="id"
+          :pt="{ bodyCell: { style: { fontFamily: 'var(--font-mono)', fontSize: '12px' } } }"/>
+        <Column header="Canal">
+          <template #body="{ data: o }">
+            <div :style="{ display: 'flex', alignItems: 'center', gap: '8px' }">
+              <div :style="{ width: '20px', height: '20px', borderRadius: '6px', background: channelColor(o.channel), color: '#fff', display: 'grid', placeItems: 'center', flex: 'none' }">
+                <component :is="channelIcon(channelKey(o.channel))" :size="11"/>
+              </div>
+              <span>{{ o.channel }}</span>
+            </div>
+          </template>
+        </Column>
+        <Column header="Cliente" field="client"/>
+        <Column header="Itens" field="items"
+          :pt="{ headerCell: { style: { textAlign: 'center' } }, bodyCell: { style: { textAlign: 'center' } } }"/>
+        <Column header="Valor"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' } } }">
+          <template #body="{ data: o }">{{ eurD(o.value) }}</template>
+        </Column>
+        <Column header="ETA" field="eta"
+          :pt="{ bodyCell: { style: { fontSize: '12.5px', color: 'var(--foreground-muted)' } } }"/>
+        <Column header="Estado">
+          <template #body="{ data: o }">
+            <Tag :severity="orderStatusMap[o.status].tone">{{ orderStatusMap[o.status].label }}</Tag>
+          </template>
+        </Column>
+        <Column>
+          <template #body><Button text severity="secondary"><IMore :size="14"/></Button></template>
+        </Column>
+      </DataTable>
     </Card>
 
     <Card>

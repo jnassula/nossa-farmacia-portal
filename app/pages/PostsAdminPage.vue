@@ -17,9 +17,9 @@ const COVER_ICONS = {
 
 const STATUS_META = {
   published: { label: 'Publicado', color: 'success' },
-  draft:     { label: 'Rascunho',  color: 'neutral' },
+  draft:     { label: 'Rascunho',  color: 'secondary' },
   scheduled: { label: 'Agendado',  color: 'info'    },
-  archived:  { label: 'Arquivado', color: 'neutral' },
+  archived:  { label: 'Arquivado', color: 'secondary' },
 };
 
 const posts = ref([...data.posts]);
@@ -185,7 +185,7 @@ const renderInline = (text) => text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</stron
 const coverIconKeys = Object.keys(COVER_ICONS);
 const coverIconNameForKey = (k) => COVER_ICONS[k];
 
-const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'info' ? 'info' : 'neutral';
+const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'info' ? 'info' : 'secondary';
 </script>
 
 <template>
@@ -273,67 +273,67 @@ const statusToneFor = (s) => s.color === 'success' ? 'success' : s.color === 'in
         </div>
       </div>
 
-      <div class="table-scroll" :style="{ overflowX: 'auto' }">
-        <table class="data-table" :style="{ width: '100%', minWidth: '880px', borderCollapse: 'collapse' }">
-          <thead>
-            <tr>
-              <th :style="{ textAlign: 'left', padding: '12px 18px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Post</th>
-              <th :style="{ textAlign: 'left', padding: '12px 12px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Categoria</th>
-              <th :style="{ textAlign: 'left', padding: '12px 12px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Estado</th>
-              <th :style="{ textAlign: 'left', padding: '12px 12px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Autor</th>
-              <th :style="{ textAlign: 'right', padding: '12px 12px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Vistas</th>
-              <th :style="{ textAlign: 'right', padding: '12px 12px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Engagement</th>
-              <th :style="{ textAlign: 'left', padding: '12px 12px', fontSize: '11px', color: 'var(--foreground-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }">Data</th>
-              <th :style="{ width: '50px' }"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="p in filtered" :key="p.id" class="row-hover"
-              @click="isGroupView && (editing = p)"
-              :style="{ borderTop: '1px solid var(--border-subtle)', cursor: isGroupView ? 'pointer' : 'default' }">
-              <td :style="{ padding: '14px 18px' }">
-                <div :style="{ display: 'flex', gap: '10px', alignItems: 'center' }">
-                  <div :style="{ width: '40px', height: '40px', borderRadius: '8px', background: p.coverGradient, flex: 'none', display: 'grid', placeItems: 'center' }">
-                    <component :is="COVER_ICONS[p.coverIcon] || 'IMegaphone'" :size="18" :style="{ color: '#fff' }"/>
-                  </div>
-                  <div :style="{ minWidth: 0 }">
-                    <div :style="{ fontSize: '13.5px', fontWeight: 600, lineHeight: 1.3, display: 'flex', alignItems: 'center', gap: '6px' }">
-                      <IBookmark v-if="p.pinned" :size="12" :style="{ color: 'var(--primary)' }"/>
-                      {{ p.title }}
-                    </div>
-                    <div :style="{
-                      fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '2px',
-                      display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden',
-                    }">{{ p.excerpt }}</div>
-                  </div>
+      <DataTable :value="filtered" :rowHover="true" stripedRows
+        :pt="{ root: { style: { minWidth: '880px' } }, bodyRow: { style: { cursor: isGroupView ? 'pointer' : 'default' } } }"
+        @row-click="(e) => isGroupView && (editing = e.data)">
+        <Column header="Post">
+          <template #body="{ data: p }">
+            <div :style="{ display: 'flex', gap: '10px', alignItems: 'center' }">
+              <div :style="{ width: '40px', height: '40px', borderRadius: '8px', background: p.coverGradient, flex: 'none', display: 'grid', placeItems: 'center' }">
+                <component :is="COVER_ICONS[p.coverIcon] || 'IMegaphone'" :size="18" :style="{ color: '#fff' }"/>
+              </div>
+              <div :style="{ minWidth: 0 }">
+                <div :style="{ fontSize: '13.5px', fontWeight: 600, lineHeight: 1.3, display: 'flex', alignItems: 'center', gap: '6px' }">
+                  <IBookmark v-if="p.pinned" :size="12" :style="{ color: 'var(--primary)' }"/>
+                  {{ p.title }}
                 </div>
-              </td>
-              <td :style="{ padding: '14px 12px' }"><CategoryBadge :id="p.category"/></td>
-              <td :style="{ padding: '14px 12px' }">
-                <Tag :severity="statusToneFor(STATUS_META[p.status])">{{ STATUS_META[p.status].label }}</Tag>
-              </td>
-              <td :style="{ padding: '14px 12px', fontSize: '12.5px' }">
-                <div :style="{ display: 'flex', alignItems: 'center', gap: '8px' }">
-                  <Avatar :name="p.author.name" :size="22"/>
-                  <span :style="{ color: 'var(--foreground-muted)' }">{{ p.author.name }}</span>
-                </div>
-              </td>
-              <td :style="{ padding: '14px 12px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontSize: '13px' }">{{ p.views.toLocaleString('pt-PT') }}</td>
-              <td :style="{ padding: '14px 12px', textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontSize: '13px' }">
-                <span :style="{ color: 'var(--foreground-muted)' }">
-                  <IHeart :size="11"/> {{ p.reactions }} · <IMessageCircle :size="11"/> {{ p.comments }}
-                </span>
-              </td>
-              <td :style="{ padding: '14px 12px', fontSize: '12.5px', color: 'var(--foreground-muted)' }">{{ p.published ? formatPostDate(p.published) : '—' }}</td>
-              <td :style="{ padding: '14px 8px', textAlign: 'right' }">
-                <button class="icon-btn" @click.stop="onAction('edit', p)" :disabled="!isGroupView" :title="'Editar'">
-                  <IEdit :size="14"/>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                <div :style="{
+                  fontSize: '11.5px', color: 'var(--foreground-muted)', marginTop: '2px',
+                  display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                }">{{ p.excerpt }}</div>
+              </div>
+            </div>
+          </template>
+        </Column>
+        <Column header="Categoria">
+          <template #body="{ data: p }"><CategoryBadge :id="p.category"/></template>
+        </Column>
+        <Column header="Estado">
+          <template #body="{ data: p }">
+            <Tag :severity="statusToneFor(STATUS_META[p.status])">{{ STATUS_META[p.status].label }}</Tag>
+          </template>
+        </Column>
+        <Column header="Autor">
+          <template #body="{ data: p }">
+            <div :style="{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12.5px' }">
+              <Avatar :name="p.author.name" :size="22"/>
+              <span :style="{ color: 'var(--foreground-muted)' }">{{ p.author.name }}</span>
+            </div>
+          </template>
+        </Column>
+        <Column header="Vistas"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontSize: '13px' } } }">
+          <template #body="{ data: p }">{{ p.views.toLocaleString('pt-PT') }}</template>
+        </Column>
+        <Column header="Engagement"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontSize: '13px', color: 'var(--foreground-muted)' } } }">
+          <template #body="{ data: p }">
+            <IHeart :size="11"/> {{ p.reactions }} · <IMessageCircle :size="11"/> {{ p.comments }}
+          </template>
+        </Column>
+        <Column header="Data"
+          :pt="{ bodyCell: { style: { fontSize: '12.5px', color: 'var(--foreground-muted)' } } }">
+          <template #body="{ data: p }">{{ p.published ? formatPostDate(p.published) : '—' }}</template>
+        </Column>
+        <Column :pt="{ headerCell: { style: { width: '50px' } }, bodyCell: { style: { textAlign: 'right' } } }">
+          <template #body="{ data: p }">
+            <Button text severity="secondary" :disabled="!isGroupView" :title="'Editar'"
+              @click.stop="onAction('edit', p)">
+              <IEdit :size="14"/>
+            </Button>
+          </template>
+        </Column>
+      </DataTable>
     </Card>
   </div>
 

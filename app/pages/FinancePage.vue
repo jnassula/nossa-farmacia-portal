@@ -145,51 +145,50 @@ const dueColor = (days) => days < 0 ? 'oklch(0.50 0.23 27)' : 'var(--foreground-
         </div>
       </div>
 
-      <div :style="{ overflowX: 'auto' }">
-        <table class="tbl">
-          <thead>
-            <tr>
-              <th>Documento</th>
-              <th>{{ tab === 'receivables' ? 'Devedor' : 'Credor' }}</th>
-              <th>Tipo</th>
-              <th>Vencimento</th>
-              <th :style="{ textAlign: 'right' }">Valor</th>
-              <th>Estado</th><th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="r in data" :key="r.id">
-              <td :style="{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 500 }">{{ r.id }}</td>
-              <td>
-                <div :style="{ display: 'flex', alignItems: 'center', gap: '10px' }">
-                  <div :style="{ width: '28px', height: '28px', borderRadius: '7px', background: 'var(--surface-sunken)', color: 'var(--foreground-muted)', display: 'grid', placeItems: 'center' }">
-                    <component :is="counterpartyIcon(r.type)" :size="13"/>
-                  </div>
-                  <span :style="{ fontWeight: 500 }">{{ r.counterparty }}</span>
-                </div>
-              </td>
-              <td><Tag severity="secondary">{{ r.type }}</Tag></td>
-              <td>
-                <div :style="{ fontSize: '12.5px' }">{{ new Date(r.due).toLocaleDateString('pt-PT') }}</div>
-                <div :style="{ fontSize: '11px', color: dueColor(r.days) }">{{ dueLabel(r.days) }}</div>
-              </td>
-              <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eur(r.amount) }}</td>
-              <td>
-                <Tag v-if="r.status === 'pending'"   severity="warn">Pendente</Tag>
-                <Tag v-if="r.status === 'overdue'"   severity="danger">Em atraso</Tag>
-                <Tag v-if="r.status === 'paid'"      severity="success">Liquidado</Tag>
-                <Tag v-if="r.status === 'scheduled'" severity="info">Agendado</Tag>
-              </td>
-              <td>
-                <div :style="{ display: 'flex', gap: '4px' }">
-                  <Button text severity="secondary" :title="'Ver'"><IEye :size="14"/></Button>
-                  <Button text severity="secondary" :title="'Mais'"><IMore :size="14"/></Button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <DataTable :value="data" :rowHover="true" stripedRows>
+        <Column header="Documento"
+          :pt="{ bodyCell: { style: { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 500 } } }"
+          field="id"/>
+        <Column :header="tab === 'receivables' ? 'Devedor' : 'Credor'">
+          <template #body="{ data: r }">
+            <div :style="{ display: 'flex', alignItems: 'center', gap: '10px' }">
+              <div :style="{ width: '28px', height: '28px', borderRadius: '7px', background: 'var(--surface-sunken)', color: 'var(--foreground-muted)', display: 'grid', placeItems: 'center' }">
+                <component :is="counterpartyIcon(r.type)" :size="13"/>
+              </div>
+              <span :style="{ fontWeight: 500 }">{{ r.counterparty }}</span>
+            </div>
+          </template>
+        </Column>
+        <Column header="Tipo">
+          <template #body="{ data: r }"><Tag severity="secondary">{{ r.type }}</Tag></template>
+        </Column>
+        <Column header="Vencimento">
+          <template #body="{ data: r }">
+            <div :style="{ fontSize: '12.5px' }">{{ new Date(r.due).toLocaleDateString('pt-PT') }}</div>
+            <div :style="{ fontSize: '11px', color: dueColor(r.days) }">{{ dueLabel(r.days) }}</div>
+          </template>
+        </Column>
+        <Column header="Valor"
+          :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' } } }">
+          <template #body="{ data: r }">{{ eur(r.amount) }}</template>
+        </Column>
+        <Column header="Estado">
+          <template #body="{ data: r }">
+            <Tag v-if="r.status === 'pending'"   severity="warn">Pendente</Tag>
+            <Tag v-if="r.status === 'overdue'"   severity="danger">Em atraso</Tag>
+            <Tag v-if="r.status === 'paid'"      severity="success">Liquidado</Tag>
+            <Tag v-if="r.status === 'scheduled'" severity="info">Agendado</Tag>
+          </template>
+        </Column>
+        <Column>
+          <template #body>
+            <div :style="{ display: 'flex', gap: '4px' }">
+              <Button text severity="secondary" :title="'Ver'"><IEye :size="14"/></Button>
+              <Button text severity="secondary" :title="'Mais'"><IMore :size="14"/></Button>
+            </div>
+          </template>
+        </Column>
+      </DataTable>
 
       <div :style="{ padding: '14px 18px', borderTop: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', gap: '16px' }">
         <span :style="{ fontSize: '12.5px', color: 'var(--foreground-muted)' }">

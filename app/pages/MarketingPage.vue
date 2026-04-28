@@ -73,7 +73,7 @@ const donutData = [
                   <span :style="{ fontSize: '14px', fontWeight: 600 }">{{ c.name }}</span>
                   <Tag v-if="c.status === 'active'"    severity="success">Ativa</Tag>
                   <Tag v-if="c.status === 'scheduled'" severity="info">Agendada</Tag>
-                  <Tag v-if="c.status === 'ended'"     severity="neutral">Concluída</Tag>
+                  <Tag v-if="c.status === 'ended'"     severity="secondary">Concluída</Tag>
                 </div>
                 <div :style="{ fontSize: '12px', color: 'var(--foreground-muted)', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }">
                   <span>{{ c.channel }}</span><span>•</span><span>{{ c.starts }} → {{ c.ends }}</span>

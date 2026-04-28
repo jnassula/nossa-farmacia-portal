@@ -88,19 +88,22 @@ const cellTextColor = (v) => v > 60 ? 'var(--brand-emerald-800)' : 'var(--foregr
       <div :style="{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }">
         <Card :style="{ padding: '20px' }">
           <div :style="{ fontSize: '14px', fontWeight: 600, marginBottom: '14px' }">Top 5 produtos</div>
-          <table class="data-table">
-            <thead><tr><th>Produto</th><th :style="{ textAlign: 'right' }">Unidades</th><th :style="{ textAlign: 'right' }">Receita</th></tr></thead>
-            <tbody>
-              <tr v-for="p in D.topProducts" :key="p.id">
-                <td>
-                  <div :style="{ fontWeight: 500 }">{{ p.name }}</div>
-                  <div :style="{ fontSize: '11px', color: 'var(--foreground-muted)' }">{{ p.category }}</div>
-                </td>
-                <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums' }">{{ fmt(p.units) }}</td>
-                <td :style="{ textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 }">{{ eur(p.revenue) }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <DataTable :value="D.topProducts" :rowHover="true">
+            <Column header="Produto">
+              <template #body="{ data: p }">
+                <div :style="{ fontWeight: 500 }">{{ p.name }}</div>
+                <div :style="{ fontSize: '11px', color: 'var(--foreground-muted)' }">{{ p.category }}</div>
+              </template>
+            </Column>
+            <Column header="Unidades"
+              :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums' } } }">
+              <template #body="{ data: p }">{{ fmt(p.units) }}</template>
+            </Column>
+            <Column header="Receita"
+              :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontVariantNumeric: 'tabular-nums', fontWeight: 500 } } }">
+              <template #body="{ data: p }">{{ eur(p.revenue) }}</template>
+            </Column>
+          </DataTable>
         </Card>
         <Card :style="{ padding: '20px' }">
           <div :style="{ fontSize: '14px', fontWeight: 600, marginBottom: '14px' }">Vendas por hora</div>

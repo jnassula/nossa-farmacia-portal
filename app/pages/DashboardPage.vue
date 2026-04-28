@@ -70,7 +70,7 @@ const sevMap = {
   info:    { bg: 'oklch(0.95 0.05 230)', fg: 'oklch(0.45 0.16 230)', icon: 'IInfo'  },
 };
 
-const statusPill = (s) => s === 'top' ? 'success' : s === 'good' ? 'neutral' : 'warn';
+const statusPill = (s) => s === 'top' ? 'success' : s === 'good' ? 'secondary' : 'warn';
 const statusLabel = (s) => s === 'top' ? 'Top' : s === 'good' ? 'Bom' : 'Atenção';
 
 // ---- Local: Kpi com sparkline (variante do dashboard) ---------------------
@@ -267,39 +267,38 @@ const Kpi = (_p, { attrs }) => {
           </div>
           <SelectButton :model-value="'rev'" :options="rankingTabs" optionLabel="label" optionValue="id" :allowEmpty="false"/>
         </div>
-        <div :style="{ overflowX: 'auto' }">
-          <table class="tbl">
-            <thead>
-              <tr>
-                <th>Farmácia</th><th>Cidade</th>
-                <th :style="{ textAlign: 'right' }">Receita</th>
-                <th>Trend</th>
-                <th :style="{ textAlign: 'right' }">vs. anterior</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(p, i) in topRanking" :key="p.id">
-                <td>
-                  <div :style="{ display: 'flex', alignItems: 'center', gap: '10px' }">
-                    <div :style="{
-                      width: '22px', height: '22px', borderRadius: '6px',
-                      background: i < 3 ? 'var(--primary-soft)' : 'var(--surface-sunken)',
-                      color:      i < 3 ? 'var(--primary)'      : 'var(--foreground-muted)',
-                      display: 'grid', placeItems: 'center', fontSize: '11px', fontWeight: 700,
-                    }">{{ i + 1 }}</div>
-                    <span :style="{ fontWeight: 500 }">{{ p.name }}</span>
-                  </div>
-                </td>
-                <td :style="{ color: 'var(--foreground-muted)' }">{{ p.city }}</td>
-                <td :style="{ textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }">{{ eur(p.revenue) }}</td>
-                <td><Sparkline :data="[80, 92, 88, 102, 110, 118, 124, 130 + i * 4]" :width="70" :height="20"/></td>
-                <td :style="{ textAlign: 'right' }"><Trend :value="p.growth"/></td>
-                <td><Tag :severity="statusPill(p.status)">{{ statusLabel(p.status) }}</Tag></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <DataTable :value="topRanking" :rowHover="true" stripedRows>
+          <Column header="Farmácia">
+            <template #body="{ data: p, index: i }">
+              <div :style="{ display: 'flex', alignItems: 'center', gap: '10px' }">
+                <div :style="{
+                  width: '22px', height: '22px', borderRadius: '6px',
+                  background: i < 3 ? 'var(--primary-soft)' : 'var(--surface-sunken)',
+                  color:      i < 3 ? 'var(--primary)'      : 'var(--foreground-muted)',
+                  display: 'grid', placeItems: 'center', fontSize: '11px', fontWeight: 700,
+                }">{{ i + 1 }}</div>
+                <span :style="{ fontWeight: 500 }">{{ p.name }}</span>
+              </div>
+            </template>
+          </Column>
+          <Column header="Cidade" field="city" :pt="{ bodyCell: { style: { color: 'var(--foreground-muted)' } } }"/>
+          <Column header="Receita"
+            :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right', fontWeight: 600, fontVariantNumeric: 'tabular-nums' } } }">
+            <template #body="{ data: p }">{{ eur(p.revenue) }}</template>
+          </Column>
+          <Column header="Trend">
+            <template #body="{ index: i }">
+              <Sparkline :data="[80, 92, 88, 102, 110, 118, 124, 130 + i * 4]" :width="70" :height="20"/>
+            </template>
+          </Column>
+          <Column header="vs. anterior"
+            :pt="{ headerCell: { style: { textAlign: 'right' } }, bodyCell: { style: { textAlign: 'right' } } }">
+            <template #body="{ data: p }"><Trend :value="p.growth"/></template>
+          </Column>
+          <Column>
+            <template #body="{ data: p }"><Tag :severity="statusPill(p.status)">{{ statusLabel(p.status) }}</Tag></template>
+          </Column>
+        </DataTable>
       </Card>
 
       <Card>
