@@ -218,3 +218,169 @@
   color: var(--foreground-muted);
   margin: 0 0 12px;
 }
+
+/* ========================================================================
+   SELECTBUTTON — usado como segmented control (substituiu o Tabs Nossa).
+   Selected: fundo primary, texto branco; hover: surface-sunken.
+   ======================================================================== */
+.p-selectbutton {
+  display: inline-flex;
+  gap: 0;
+  background: var(--ink-50);
+  border-radius: 10px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+.p-selectbutton .p-togglebutton,
+.p-selectbutton button.p-button {
+  background: transparent;
+  color: var(--foreground-muted);
+  border: 0;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background 160ms, color 160ms;
+}
+.p-selectbutton .p-togglebutton:hover:not(.p-togglebutton-checked),
+.p-selectbutton button.p-button:hover:not(.p-togglebutton-checked) {
+  background: var(--surface);
+  color: var(--foreground);
+}
+.p-selectbutton .p-togglebutton-checked,
+.p-selectbutton .p-togglebutton.p-togglebutton-checked,
+.p-selectbutton button.p-button.p-togglebutton-checked {
+  background: var(--surface);
+  color: var(--foreground);
+  box-shadow: 0 1px 2px oklch(0 0 0 / 0.06), 0 0 0 1px var(--border);
+}
+
+/* ========================================================================
+   DATATABLE — alinhar com o look das tabelas anteriores (.tbl/.data-table)
+   ======================================================================== */
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--surface-sunken);
+  color: var(--foreground-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+}
+.p-datatable .p-datatable-tbody > tr:last-child > td {
+  border-bottom: 0;
+}
+.p-datatable .p-datatable-tbody > tr.p-datatable-row-striped {
+  background: oklch(from var(--surface-sunken) l c h / 0.5);
+}
+.p-datatable .p-datatable-tbody > tr:hover {
+  background: var(--surface-sunken);
+}
+
+/* ========================================================================
+   DIALOG / DRAWER — header e footer harmonizados
+   ======================================================================== */
+.p-drawer .p-drawer-header,
+.p-dialog .p-dialog-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.p-drawer .p-drawer-content,
+.p-dialog .p-dialog-content {
+  padding: 22px;
+}
+.p-drawer .p-drawer-footer,
+.p-dialog .p-dialog-footer {
+  padding: 14px 22px;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface-sunken);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* ========================================================================
+   TOAST — animacao limpa, alinhamento bottom-right
+   ======================================================================== */
+.p-toast {
+  width: 380px;
+}
+.p-toast .p-toast-message {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 8px;
+}
+.p-toast .p-toast-message-content {
+  padding: 14px 16px;
+  gap: 10px;
+}
+.p-toast .p-toast-summary {
+  font-size: 13px;
+  font-weight: 600;
+}
+.p-toast .p-toast-detail {
+  font-size: 12px;
+  color: var(--foreground-muted);
+  margin-top: 2px;
+}
+
+/* ========================================================================
+   BUTTON — pequenos refinos no text (ghost) e outlined
+   ======================================================================== */
+.p-button.p-button-text:hover {
+  background: var(--surface-sunken);
+}
+.p-button.p-button-outlined {
+  background: var(--surface);
+}
+.p-button.p-button-outlined:hover {
+  background: var(--surface-sunken);
+}
+
+/* Botoes com children apenas (icone, sem label) — IconBtn equivalente. */
+.p-button:not(.p-button-icon-only) > svg {
+  flex: none;
+}
+
+/* ========================================================================
+   TOGGLESWITCH — alinhamento e tamanho proximo ao toggle Nossa custom
+   ======================================================================== */
+.p-toggleswitch {
+  width: 36px;
+  height: 20px;
+}
+.p-toggleswitch .p-toggleswitch-slider::before {
+  width: 14px;
+  height: 14px;
+}
+
+/* ========================================================================
+   SLIDER — reduz altura e aproxima do nosso .twk-slider
+   ======================================================================== */
+.p-slider.p-slider-horizontal {
+  height: 4px;
+}
+.p-slider .p-slider-handle {
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 0.5px solid oklch(0 0 0 / 0.12);
+  background: var(--surface);
+  box-shadow: 0 1px 3px oklch(0 0 0 / 0.2);
+}
+
+/* ========================================================================
+   ICONFIELD — usar a mesma altura/border que .p-inputtext
+   ======================================================================== */
+.p-iconfield .p-inputicon {
+  color: var(--foreground-subtle);
+  font-size: 14px;
+}
