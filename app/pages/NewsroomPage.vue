@@ -142,7 +142,7 @@ const filterPillStyle = (cat) => ({
       <div class="ui-field newsroom-filters-search">
         <ISearch :size="14" :style="{ color: 'var(--foreground-muted)' }"/>
         <input v-model="search" placeholder="Procurar artigos…"
-          :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit', fontSize: '13px' }"/>
+          :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit', fontSize: '16px' }"/>
       </div>
     </div>
 

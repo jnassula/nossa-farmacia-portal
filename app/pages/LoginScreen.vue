@@ -27,7 +27,7 @@ const submit = (e) => {
 
 const inputBare = {
   flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit',
-  fontSize: '14px', color: 'var(--foreground)',
+  fontSize: '16px', color: 'var(--foreground)',
 };
 const loginRoot = {
   display: 'grid', gridTemplateColumns: '1.05fr 1fr',

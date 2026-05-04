@@ -60,7 +60,7 @@ const onPick = (it) => {
         <ISearch :size="16" :style="{ color: 'var(--foreground-muted)' }"/>
         <input ref="inputRef" v-model="q"
           placeholder="Procurar páginas, ações, produtos…"
-          :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit', fontSize: '14px', color: 'var(--foreground)' }"/>
+          :style="{ flex: 1, border: 0, outline: 0, background: 'transparent', font: 'inherit', fontSize: '16px', color: 'var(--foreground)' }"/>
         <kbd :style="kbdStyle">esc</kbd>
       </div>
 
